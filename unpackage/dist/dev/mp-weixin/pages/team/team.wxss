@@ -1,0 +1,97 @@
+.content.data-v-76270ed8 {
+  background: #FFFFFF;
+}
+.team-head.data-v-76270ed8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  border-radius: 12rpx;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+.team-name.data-v-76270ed8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 90%;
+  margin: 0 auto;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  border-top: 1rpx solid rgba(0, 0, 0, 0.2);
+}
+.team-name .title.data-v-76270ed8 {
+    width: 35%;
+    font-size: 34rpx;
+}
+uni-form.data-v-76270ed8 {
+  width: 100%;
+}
+.uni-column.data-v-76270ed8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 90%;
+  margin: 0 auto;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+.uni-column .title.data-v-76270ed8 {
+    width: 30%;
+    font-size: 34rpx;
+}
+.backgroud.data-v-76270ed8 {
+  background-color: #CCCCCC;
+}
+.team-card.data-v-76270ed8 {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 12rpx;
+  margin-top: 60rpx;
+  height: 700rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.team-card .col.data-v-76270ed8 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+            flex: 1;
+    height: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+            flex-direction: column;
+}
+.team-card .col .row.data-v-76270ed8 {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+              flex: 1;
+}
+.team-card .col .row .row-center.data-v-76270ed8 {
+        text-align: center;
+}
+.team-card .col .row .row-top.data-v-76270ed8 {
+        margin-top: 10%;
+}
+.team-card .col-one-border.data-v-76270ed8 {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.team-card .row-botton.data-v-76270ed8 {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.team-card .row-number.data-v-76270ed8 {
+    font-size: 45rpx;
+}
+.team-card .row-word.data-v-76270ed8 {
+    font-size: 25rpx;
+    color: #c5c5c5;
+}
+
