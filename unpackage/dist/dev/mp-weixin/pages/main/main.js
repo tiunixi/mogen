@@ -144,91 +144,148 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  components: {
-    // sunTab
-  },
-  data: function data() {
-    return {};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
-  },
-  onLoad: function onLoad() {
 
-  },
-  methods: {
-    myTeam: function myTeam() {
-      console.log(1);
-      uni.navigateTo({
-        url: '../team/team' });
 
-    } } };exports.default = _default;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 16);
+
+
+var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 31));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};var _default = { computed: (0, _vuex.mapState)(['forcedLogin', 'hasLogin', 'userName', 'avatarUrl']), components: { mInput: mInput }, data: function data() {return {};}, methods: { myTeam: function myTeam() {console.log(1);uni.navigateTo({ url: '../team/team' });} }, onLoad: function onLoad() {var _this = this;if (!this.hasLogin) {var validUser = _service.default.getUsers();if (validUser.length !== 0) {// 存在缓存数据getUsers（）对象
+        // 如果存在缓存,需要根据缓存的信息请求数据
+        // this.toMain(this.account);
+      } else {uni.showModal({ title: '未登录', content: '您未登录，需要登录后才能继续', /**
+                                                                        * 如果需要强制登录，不显示取消按钮
+                                                                        */showCancel: !this.forcedLogin, success: function success(res) {if (res.confirm) {/**
+                                                                                                                                                            * 如果需要强制登录，使用reLaunch方式
+                                                                                                                                                            */if (_this.forcedLogin) {uni.reLaunch({ url: '../login/login' });} else {uni.navigateTo({ url: '../login/login' });}}} });}}} };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

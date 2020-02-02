@@ -166,12 +166,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 31));
-var _vuex = __webpack_require__(/*! vuex */ 16);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};var _default =
+
+
+
+var _uniRequest = _interopRequireDefault(__webpack_require__(/*! uni-request */ 104));
+var _vuex = __webpack_require__(/*! vuex */ 16);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};
 
 
 
 
-
+var BASE_URL = 'http://www.luominus.com/';var _default =
 {
   components: {
     mInput: mInput },
@@ -219,45 +223,80 @@ var _vuex = __webpack_require__(/*! vuex */ 16);function _interopRequireDefault(
       this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
     },
     bindLogin: function bindLogin() {
+      // if (this.password.length ===0 &&this.account.length===0) {
+      // 	uni.showToast({
+      // 		icon: 'none',
+      // 		title: '请输入后再登录'
+      // 	});
+      // 	return;
+      // }
       /**
-                                      * 客户端对账号信息进行一些必要的校验。
-                                      * 实际开发中，根据业务需要进行处理，这里仅做示例。
-                                      */
-      if (this.account.length < 5) {
-        uni.showToast({
-          icon: 'none',
-          title: '账号最短为 5 个字符' });
-
-        return;
-      }
-      if (this.password.length < 6) {
-        uni.showToast({
-          icon: 'none',
-          title: '密码最短为 6 个字符' });
-
-        return;
-      }
+       * 客户端对账号信息进行一些必要的校验。
+       * 实际开发中，根据业务需要进行处理，这里仅做示例。
+       */
+      // if (this.account.length < 5) {
+      // 	uni.showToast({
+      // 		icon: 'none',
+      // 		title: '账号最短为 5 个字符'
+      // 	});
+      // 	return;
+      // }
+      // if (this.password.length < 6) {
+      // 	uni.showToast({
+      // 		icon: 'none',
+      // 		title: '密码最短为 6 个字符'
+      // 	});
+      // 	return;
+      // }
       /**
-         * 下面简单模拟下服务端的处理
-         * 检测用户账号密码是否在已注册的用户列表中
-         * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
-         */
+       * 下面简单模拟下服务端的处理
+       * 检测用户账号密码是否在已注册的用户列表中
+       * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
+       */
       var data = {
-        account: this.account,
-        password: this.password };
+        // account: this.account,
+        // pwd: this.password
+        account: 17766666669,
+        pwd: 1 };
 
-      var validUser = _service.default.getUsers().some(function (user) {
-        return data.account === user.account && data.password === user.password;
-      });
-      if (validUser) {
-        this.toMain(this.account);
-      } else {
-        uni.showToast({
-          icon: 'none',
-          title: '用户账号或密码不正确' });
+      var validUser = _service.default.getUsers();
 
+      console.log(validUser.length);
+      if (validUser.length !== 0) {
+        // 存在缓存数据getUsers（）对象
+        // this.toMain(this.account);
+      } else
+      {
+        // service.toServicelogin(data)
+        //需要重新登录
+        var that = this;
+        _uniRequest.default.post(BASE_URL + "api/v1/User/login", data).
+        then(function (response) {
+          if (response.status === 200) {
+            console.log(response);
+            // 登录成功后存入缓存数据addUser
+            _service.default.addUser(data);
+            uni.showToast({
+              icon: 'none',
+              title: '登陆成功' });
+
+            // that.toMain(data.account);
+            uni.reLaunch({
+              url: '../main/main' });
+
+          } else
+          {
+            uni.showToast({
+              icon: 'none',
+              title: '用户账号或密码不正确' });
+
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
       }
     },
+    // 微信小程序等自助登录端口
     oauth: function oauth(value) {var _this2 = this;
       uni.login({
         provider: value,

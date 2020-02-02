@@ -64,27 +64,66 @@
  </template>
  
  <script>
- 	export default {
- 		components: {
- 			// sunTab
- 		},
- 		data() {
- 			return {
- 				
- 			}
- 		},
- 		onLoad() {
- 
- 		},
- 		methods: {
+	 import {
+	 	mapState
+	 } from 'vuex';
+	 import service from '../../service.js';
+	 import mInput from '../../components/m-input.vue';
+	 export default {
+	 	computed: mapState(['forcedLogin', 'hasLogin', 'userName','avatarUrl']),
+		components: {
+			mInput
+		},
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
 			myTeam() {
 				console.log(1)
 				uni.navigateTo({
 					url: '../team/team',
 				});
 			}
- 		}
- 	}
+		},
+	 	onLoad() {
+	 		if (!this.hasLogin) {
+				let validUser = service.getUsers();
+				if (validUser.length !== 0) {
+					// 存在缓存数据getUsers（）对象
+					// 如果存在缓存,需要根据缓存的信息请求数据
+					// this.toMain(this.account);
+				} else {
+					uni.showModal({
+						title: '未登录',
+						content: '您未登录，需要登录后才能继续',
+						/**
+						 * 如果需要强制登录，不显示取消按钮
+						 */
+						showCancel: !this.forcedLogin,
+						success: (res) => {
+							if (res.confirm) {
+								/**
+								 * 如果需要强制登录，使用reLaunch方式
+								 */
+								if (this.forcedLogin) {
+									uni.reLaunch({
+										url: '../login/login'
+									});
+								} else {
+									uni.navigateTo({
+										url: '../login/login'
+									});
+								}
+							}
+						}
+					});
+				}	
+				
+	 		}
+	 	}
+	 }
  </script>
  <style lang="scss" scoped>
  	.content {

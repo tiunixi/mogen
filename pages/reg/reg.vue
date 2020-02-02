@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="input-group">
 			<view class="input-row border">
-				<text class="title">账号：</text>
+				<text class="title">手机号码：</text>
 				<m-input type="text" focus clearable v-model="account" placeholder="请输入账号"></m-input>
 			</view>
 			<view class="input-row border">

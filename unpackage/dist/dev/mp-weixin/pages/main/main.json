@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "摩根国际",
-  "usingComponents": {}
+  "usingComponents": {
+    "m-input": "/components/m-input"
+  }
 }

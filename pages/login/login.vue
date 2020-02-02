@@ -31,12 +31,16 @@
 
 <script>
 	import service from '../../service.js';
+	// 公用的请求地址
+	
+	
+	import uniRequest from 'uni-request';
 	import {
 		mapState,
 		mapMutations
 	} from 'vuex'
 	import mInput from '../../components/m-input.vue'
-
+	const BASE_URL = 'http://www.luominus.com/';
 	export default {
 		components: {
 			mInput
@@ -84,45 +88,80 @@
 				this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
 			},
 			bindLogin() {
+				// if (this.password.length ===0 &&this.account.length===0) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '请输入后再登录'
+				// 	});
+				// 	return;
+				// }
 				/**
 				 * 客户端对账号信息进行一些必要的校验。
 				 * 实际开发中，根据业务需要进行处理，这里仅做示例。
 				 */
-				if (this.account.length < 5) {
-					uni.showToast({
-						icon: 'none',
-						title: '账号最短为 5 个字符'
-					});
-					return;
-				}
-				if (this.password.length < 6) {
-					uni.showToast({
-						icon: 'none',
-						title: '密码最短为 6 个字符'
-					});
-					return;
-				}
+				// if (this.account.length < 5) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '账号最短为 5 个字符'
+				// 	});
+				// 	return;
+				// }
+				// if (this.password.length < 6) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '密码最短为 6 个字符'
+				// 	});
+				// 	return;
+				// }
 				/**
 				 * 下面简单模拟下服务端的处理
 				 * 检测用户账号密码是否在已注册的用户列表中
 				 * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
 				 */
 				const data = {
-					account: this.account,
-					password: this.password
+					// account: this.account,
+					// pwd: this.password
+					account:17766666669,
+					pwd: 1
 				};
-				const validUser = service.getUsers().some(function(user) {
-					return data.account === user.account && data.password === user.password;
-				});
-				if (validUser) {
-					this.toMain(this.account);
-				} else {
-					uni.showToast({
-						icon: 'none',
-						title: '用户账号或密码不正确',
-					});
+				let validUser = service.getUsers();
+		
+				console.log(validUser.length)
+				if (validUser.length !== 0) {
+					// 存在缓存数据getUsers（）对象
+					// this.toMain(this.account);
+				} 
+				else {
+					// service.toServicelogin(data)
+					//需要重新登录
+					var that = this;
+					uniRequest.post(BASE_URL + "api/v1/User/login", data)
+						.then(function(response) {
+							if (response.status === 200) {
+								console.log(response);
+								// 登录成功后存入缓存数据addUser
+								service.addUser(data)
+								uni.showToast({
+									icon: 'none',
+									title: '登陆成功',
+								});
+								// that.toMain(data.account);
+								uni.reLaunch({
+									url: '../main/main',
+								});
+							}
+							else {
+								uni.showToast({
+									icon: 'none',
+									title: '用户账号或密码不正确',
+								});
+							}
+						}).catch(function(error) {
+							console.log(error);
+						});
 				}
 			},
+			// 微信小程序等自助登录端口
 			oauth(value) {
 				uni.login({
 					provider: value,

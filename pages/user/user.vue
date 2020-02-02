@@ -51,10 +51,11 @@
 		mapState,
 		mapMutations
 	} from 'vuex';
+	import mInput from '../../components/m-input.vue'
 import sunTab from '@/components/sun-tab/sun-tab.vue';
 	export default {
 		components: {
-			sunTab
+			sunTab,mInput
 		},
 		data() {
 			return {
