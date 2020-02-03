@@ -35,17 +35,21 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"app-plus": {
-				            "titleNView": {
-				                "buttons": [
-				                    {
-				                        "text": "退出登录",
-				                        "fontSize": "14px",
-										"color":"#ff6666",
-										"float":"right"
-				                    }
-				                ]
-				            }
-				        }
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "退出",
+								"fontSize": "14px",
+								"color":"#ff6666",
+								"width":"auto"
+							}
+						]
+					}
+				}
+				
+				// "app-plus": {
+				// 	"titleNView": false
+				// }
 			}
 		}
 	],

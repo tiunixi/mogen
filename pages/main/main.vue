@@ -144,10 +144,10 @@
 			font-size: 52upx;
 		}	
 		.kong {
-			width: 48%;
+			width: 45%;
 		}
 		.yuan {
-			width: 22%;
+			width: 25%;
 			font-size: 22upx;
 			color: #c5c5c5;
 		}

@@ -2123,6 +2123,112 @@ defaults;exports.default = _default;
 
 /***/ }),
 
+/***/ 127:
+/*!**********************************************************************************!*\
+  !*** /Users/didi/Documents/HBuilderProjects/mogen/components/uni-icons/icons.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  'contact': "\uE100",
+  'person': "\uE101",
+  'personadd': "\uE102",
+  'contact-filled': "\uE130",
+  'person-filled': "\uE131",
+  'personadd-filled': "\uE132",
+  'phone': "\uE200",
+  'email': "\uE201",
+  'chatbubble': "\uE202",
+  'chatboxes': "\uE203",
+  'phone-filled': "\uE230",
+  'email-filled': "\uE231",
+  'chatbubble-filled': "\uE232",
+  'chatboxes-filled': "\uE233",
+  'weibo': "\uE260",
+  'weixin': "\uE261",
+  'pengyouquan': "\uE262",
+  'chat': "\uE263",
+  'qq': "\uE264",
+  'videocam': "\uE300",
+  'camera': "\uE301",
+  'mic': "\uE302",
+  'location': "\uE303",
+  'mic-filled': "\uE332",
+  'speech': "\uE332",
+  'location-filled': "\uE333",
+  'micoff': "\uE360",
+  'image': "\uE363",
+  'map': "\uE364",
+  'compose': "\uE400",
+  'trash': "\uE401",
+  'upload': "\uE402",
+  'download': "\uE403",
+  'close': "\uE404",
+  'redo': "\uE405",
+  'undo': "\uE406",
+  'refresh': "\uE407",
+  'star': "\uE408",
+  'plus': "\uE409",
+  'minus': "\uE410",
+  'circle': "\uE411",
+  'checkbox': "\uE411",
+  'close-filled': "\uE434",
+  'clear': "\uE434",
+  'refresh-filled': "\uE437",
+  'star-filled': "\uE438",
+  'plus-filled': "\uE439",
+  'minus-filled': "\uE440",
+  'circle-filled': "\uE441",
+  'checkbox-filled': "\uE442",
+  'closeempty': "\uE460",
+  'refreshempty': "\uE461",
+  'reload': "\uE462",
+  'starhalf': "\uE463",
+  'spinner': "\uE464",
+  'spinner-cycle': "\uE465",
+  'search': "\uE466",
+  'plusempty': "\uE468",
+  'forward': "\uE470",
+  'back': "\uE471",
+  'left-nav': "\uE471",
+  'checkmarkempty': "\uE472",
+  'home': "\uE500",
+  'navigate': "\uE501",
+  'gear': "\uE502",
+  'paperplane': "\uE503",
+  'info': "\uE504",
+  'help': "\uE505",
+  'locked': "\uE506",
+  'more': "\uE507",
+  'flag': "\uE508",
+  'home-filled': "\uE530",
+  'gear-filled': "\uE532",
+  'info-filled': "\uE534",
+  'help-filled': "\uE535",
+  'more-filled': "\uE537",
+  'settings': "\uE560",
+  'list': "\uE562",
+  'bars': "\uE563",
+  'loop': "\uE565",
+  'paperclip': "\uE567",
+  'eye': "\uE568",
+  'arrowup': "\uE580",
+  'arrowdown': "\uE581",
+  'arrowleft': "\uE582",
+  'arrowright': "\uE583",
+  'arrowthinup': "\uE584",
+  'arrowthindown': "\uE585",
+  'arrowthinleft': "\uE586",
+  'arrowthinright': "\uE587",
+  'pulldown': "\uE588",
+  'closefill': "\uE589",
+  'sound': "\uE590",
+  'scan': "\uE612" };exports.default = _default;
+
+/***/ }),
+
 /***/ 14:
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -10283,7 +10389,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "摩根国际", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/reg/reg": { "navigationBarTitleText": "注册", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/pwd/pwd": { "navigationBarTitleText": "找回密码", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "usingComponents": { "sun-tab": "/components/sun-tab/sun-tab" }, "usingAutoImportComponents": {} }, "pages/order/order": { "navigationBarTitleText": "订单", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/team/team": { "navigationBarTitleText": "我的团队", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/index": { "navigationBarTitleText": "启动页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/list": { "navigationBarTitleText": "启动介绍页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#fff" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "摩根国际", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/reg/reg": { "navigationBarTitleText": "注册", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/pwd/pwd": { "navigationBarTitleText": "找回密码", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "usingComponents": { "sun-tab": "/components/sun-tab/sun-tab", "m-input": "/components/m-input", "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar" }, "usingAutoImportComponents": {} }, "pages/order/order": { "navigationBarTitleText": "订单", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/team/team": { "navigationBarTitleText": "我的团队", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/index": { "navigationBarTitleText": "启动页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/list": { "navigationBarTitleText": "启动介绍页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#fff" } };exports.default = _default;
 
 /***/ }),
 

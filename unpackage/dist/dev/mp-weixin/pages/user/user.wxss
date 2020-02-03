@@ -1,12 +1,23 @@
+.uni-page-head-ft {
+  position: relative;
+  right: 19px;
+}
+.uni-page-head-btn {
+  position: relative;
+  right: 25px;
+}
+
+.uni-page-head-ft.data-v-3cf56398 {
+  position: relative;
+  right: 19px;
+}
 .content.data-v-3cf56398 {
   background: #FFFFFF;
 }
 .user-head.data-v-3cf56398 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
   border-radius: 12rpx;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  height: 300rpx;
 }
 uni-form.data-v-3cf56398 {
   width: 98%;

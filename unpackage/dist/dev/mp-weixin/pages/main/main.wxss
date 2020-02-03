@@ -20,10 +20,10 @@
     font-size: 52rpx;
 }
 .all-money .kong.data-v-5fa3ef50 {
-    width: 48%;
+    width: 45%;
 }
 .all-money .yuan.data-v-5fa3ef50 {
-    width: 22%;
+    width: 25%;
     font-size: 22rpx;
     color: #c5c5c5;
 }

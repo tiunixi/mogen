@@ -2,15 +2,15 @@
 	<view class="content">
 		<view class="input-group">
 			<view class="input-row border">
-				<text class="title">手机号码：</text>
+				<text class="title">手机号：</text>
 				<m-input type="text" focus clearable v-model="account" placeholder="请输入账号"></m-input>
 			</view>
 			<view class="input-row border">
-				<text class="title">密码：</text>
+				<text class="title">密   码：</text>
 				<m-input type="password" displayable v-model="password" placeholder="请输入密码"></m-input>
 			</view>
 			<view class="input-row">
-				<text class="title">邮箱：</text>
+				<text class="title">邮   箱：</text>
 				<m-input type="text" clearable v-model="email" placeholder="请输入邮箱"></m-input>
 			</view>
 		</view>
@@ -80,6 +80,12 @@
 	}
 </script>
 
-<style>
-
+<style scoped lang="less">
+	
+.input-row {
+		
+	.title {
+		width:auto
+	}
+}
 </style>
