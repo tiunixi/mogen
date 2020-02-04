@@ -1,5 +1,7 @@
 {
   "pages": [
+    "pages/index/index",
+    "pages/index/guide",
     "pages/main/main",
     "pages/login/login",
     "pages/reg/reg",

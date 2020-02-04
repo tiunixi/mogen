@@ -1699,70 +1699,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 104:
-/*!**************************************************************************************!*\
-  !*** /Users/didi/Documents/HBuilderProjects/mogen/node_modules/uni-request/index.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
-var _request = _interopRequireDefault(__webpack_require__(/*! ./src/request */ 105));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
-
-_request.default;exports.default = _default;
-
-/***/ }),
-
-/***/ 105:
-/*!********************************************************************************************!*\
-  !*** /Users/didi/Documents/HBuilderProjects/mogen/node_modules/uni-request/src/request.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
-
-
-
-
-
-var _class = _interopRequireDefault(__webpack_require__(/*! ./class */ 107));
-var util = _interopRequireWildcard(__webpack_require__(/*! ./helpers/util */ 108));
-var _defaults = _interopRequireDefault(__webpack_require__(/*! ./defaults */ 111));function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-
-function createInstance(config) {
-  var context = new _class.default(config);
-  var instance = util.bind(_class.default.prototype.request, context);
-  util.extend(instance, _class.default.prototype, context);
-  util.extend(instance, context);
-  return instance;
-}
-
-var request = createInstance(_defaults.default);
-
-
-// 用于创建多个实例
-request.create = function (config) {
-  return createInstance(utils.merge(_defaults.default, config));
-};
-
-// 并发请求数据处理
-request.spread = function (callback) {
-  return function () {for (var _len = arguments.length, arg = new Array(_len), _key = 0; _key < _len; _key++) {arg[_key] = arguments[_key];}
-    return callback.apply(null, [].concat(arg));
-  };
-};var _default =
-
-
-request;exports.default = _default;
-
-/***/ }),
-
 /***/ 107:
 /*!******************************************************************************************!*\
   !*** /Users/didi/Documents/HBuilderProjects/mogen/node_modules/uni-request/src/class.js ***!
@@ -2347,6 +2283,70 @@ function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ 140:
+/*!**************************************************************************************!*\
+  !*** /Users/didi/Documents/HBuilderProjects/mogen/node_modules/uni-request/index.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+var _request = _interopRequireDefault(__webpack_require__(/*! ./src/request */ 141));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
+
+_request.default;exports.default = _default;
+
+/***/ }),
+
+/***/ 141:
+/*!********************************************************************************************!*\
+  !*** /Users/didi/Documents/HBuilderProjects/mogen/node_modules/uni-request/src/request.js ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+var _class = _interopRequireDefault(__webpack_require__(/*! ./class */ 107));
+var util = _interopRequireWildcard(__webpack_require__(/*! ./helpers/util */ 108));
+var _defaults = _interopRequireDefault(__webpack_require__(/*! ./defaults */ 111));function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};if (desc.get || desc.set) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+
+function createInstance(config) {
+  var context = new _class.default(config);
+  var instance = util.bind(_class.default.prototype.request, context);
+  util.extend(instance, _class.default.prototype, context);
+  util.extend(instance, context);
+  return instance;
+}
+
+var request = createInstance(_defaults.default);
+
+
+// 用于创建多个实例
+request.create = function (config) {
+  return createInstance(utils.merge(_defaults.default, config));
+};
+
+// 并发请求数据处理
+request.spread = function (callback) {
+  return function () {for (var _len = arguments.length, arg = new Array(_len), _key = 0; _key < _len; _key++) {arg[_key] = arguments[_key];}
+    return callback.apply(null, [].concat(arg));
+  };
+};var _default =
+
+
+request;exports.default = _default;
 
 /***/ }),
 
@@ -10389,7 +10389,7 @@ module.exports = {"_from":"@dcloudio/uni-stat@alpha","_id":"@dcloudio/uni-stat@2
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "摩根国际", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/reg/reg": { "navigationBarTitleText": "注册", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/pwd/pwd": { "navigationBarTitleText": "找回密码", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "usingComponents": { "sun-tab": "/components/sun-tab/sun-tab", "m-input": "/components/m-input", "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar" }, "usingAutoImportComponents": {} }, "pages/order/order": { "navigationBarTitleText": "订单", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/team/team": { "navigationBarTitleText": "我的团队", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/index": { "navigationBarTitleText": "启动页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/list": { "navigationBarTitleText": "启动介绍页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#fff" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "摩根国际", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/reg/reg": { "navigationBarTitleText": "注册", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/pwd/pwd": { "navigationBarTitleText": "找回密码", "usingComponents": { "m-input": "/components/m-input" }, "usingAutoImportComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "usingComponents": { "sun-tab": "/components/sun-tab/sun-tab", "m-input": "/components/m-input", "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar" }, "usingAutoImportComponents": {} }, "pages/order/order": { "navigationBarTitleText": "订单", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/team/team": { "navigationBarTitleText": "我的团队", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/index": { "navigationBarTitleText": "启动页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/guide/list": { "navigationBarTitleText": "启动介绍页", "navigationStyle": "custom", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/index": { "navigationBarTitleText": "启动页", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/guide": { "navigationBarTitleText": "", "usingComponents": {}, "usingAutoImportComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#fff" } };exports.default = _default;
 
 /***/ }),
 
