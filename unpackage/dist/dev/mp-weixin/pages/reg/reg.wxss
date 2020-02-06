@@ -1,4 +1,10 @@
 .input-row .title.data-v-30f0c3e2 {
   width: auto;
 }
+.letterSp.data-v-30f0c3e2 {
+  letter-spacing: 8px;
+}
+.special.data-v-30f0c3e2 {
+  padding-left: 19px;
+}
 

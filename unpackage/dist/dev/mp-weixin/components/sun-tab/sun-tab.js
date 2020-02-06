@@ -226,7 +226,7 @@ var _default2 =
       this.$emit('change', { tab: tab });
     },
     icon: function icon(img) {
-      console.log(img);
+      // console.log(img)
       if (img === 0) {
         return '../../static/img/zfb.png';
       } else

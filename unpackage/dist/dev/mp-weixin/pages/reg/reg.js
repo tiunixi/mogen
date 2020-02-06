@@ -183,60 +183,83 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 31));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};var _default = { components: { mInput: mInput }, data: function data() {return { account: '', password: '', email: '' };}, methods: { register: function register() {/**
-                                                                                                                                                                                                                                                                                                 * 客户端对账号信息进行一些必要的校验。
-                                                                                                                                                                                                                                                                                                 * 实际开发中，根据业务需要进行处理，这里仅做示例。
-                                                                                                                                                                                                                                                                                                 */if (this.account.length < 5) {uni.showToast({ icon: 'none', title: '账号最短为 5 个字符' });return;
-      }
-      if (this.password.length < 6) {
-        uni.showToast({
-          icon: 'none',
-          title: '密码最短为 6 个字符' });
 
-        return;
-      }
-      if (this.email.length < 3 || !~this.email.indexOf('@')) {
-        uni.showToast({
-          icon: 'none',
-          title: '邮箱地址不合法' });
 
-        return;
-      }
 
-      var data = {
-        account: this.account,
-        password: this.password,
-        email: this.email };
 
-      _service.default.addUser(data);
-      uni.showToast({
-        title: '注册成功' });
+var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js */ 31));
 
-      uni.navigateBack({
-        delta: 1 });
+var _uniRequest = _interopRequireDefault(__webpack_require__(/*! uni-request */ 140));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};var BASE_URL = 'http://www.luominus.com';var _default = { components: { mInput: mInput }, data: function data() {return { mobile: '', password: '', name: '', referrer_code: '' };}, methods: { register: function register() {/**
+                                                                                                                                                                                                                                                                                                                                                           * 客户端对账号信息进行一些必要的校验。
+                                                                                                                                                                                                                                                                                                                                                           * 实际开发中，根据业务需要进行处理，这里仅做示例。
+                                                                                                                                                                                                                                                                                                                                                           */if (this.mobile.length < 11) {uni.showToast({ icon: 'none', title: '请输入正确的手机号' });return;}var data = { mobile: this.mobile,
+        pwd: this.password,
+        name: this.name,
+        referrer_code: this.referrer_code
 
+        // const newdata = {
+        // 	account: this.name,
+        // 	pwd: this.password
+        // }
+      };_uniRequest.default.post(BASE_URL + "/api/v1/User/reg", data).
+      then(function (response) {
+        if (response.status === 200) {
+          console.log(response);
+          if (response.data.code === 0) {
+            uni.showToast({
+              icon: 'none',
+              title: response.data.msg });
+
+          }
+          if (response.data.code === 200) {
+            uni.showToast({
+              icon: 'none',
+              title: '注册成功，请重新登录' });
+
+            //延迟1.5s
+            setTimeout(function () {
+              uni.reLaunch({
+                url: '../login/login' });
+
+            }, 1500);
+            // service.addUser(newdata)
+          }
+        } else
+        {
+          uni.showToast({
+            icon: 'none',
+            title: '用户账号或密码不正确' });
+
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

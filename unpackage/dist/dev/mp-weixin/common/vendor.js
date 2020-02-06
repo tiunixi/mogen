@@ -9436,7 +9436,8 @@ var addUser = function addUser(userInfo) {
   var users = getUsers();
   users.push({
     account: userInfo.account,
-    pwd: userInfo.pwd });
+    pwd: userInfo.pwd,
+    token: userInfo.token });
 
   uni.setStorageSync(USERS_KEY, JSON.stringify(users));
 };

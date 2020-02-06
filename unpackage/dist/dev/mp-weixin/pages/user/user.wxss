@@ -27,7 +27,7 @@ uni-form.data-v-3cf56398 {
   line-height: 100rpx;
 }
 .input-row .title.data-v-3cf56398 {
-  color: #8F8F94;
+  width: auto;
 }
 .uni-column.data-v-3cf56398 {
   display: -webkit-box;
@@ -44,10 +44,10 @@ uni-form.data-v-3cf56398 {
   padding-left: 25rpx;
 }
 .uni-column .kong.data-v-3cf56398 {
-  width: 55%;
+  width: 50%;
 }
 .uni-column .user-switch.data-v-3cf56398 {
-  width: 15%;
+  width: 20%;
 }
 .tab-card.data-v-3cf56398 {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);

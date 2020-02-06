@@ -25,7 +25,7 @@
 				    if (value) {
 				        if (value == true) {
 				            uni.switchTab({
-				                url: '/pages/tabBar/component/component'
+				                url: '/pages/main/main'
 				            });
 				        } else {
 				            uni.redirectTo({
@@ -57,7 +57,7 @@
 				}
 				return;
 				uni.switchTab({
-				    url: '/pages/tabBar/component/component'
+				    url: '/pages/main/main'
 				});
 			}
 		}

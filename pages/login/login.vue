@@ -139,8 +139,13 @@
 						.then(function(response) {
 							if (response.status === 200) {
 								console.log(response);
-								// 登录成功后存入缓存数据addUser
-								service.addUser(data)
+								// 登录成功后存入缓存数据addUser 
+								const newData = {
+									account: data.account,
+									pwd: data.pwd,
+									token: response.data.data.token
+								}
+								service.addUser(newData)
 								uni.showToast({
 									icon: 'none',
 									title: '登陆成功',
@@ -151,10 +156,10 @@
 								});
 							}
 							else {
-								uni.showToast({
-									icon: 'none',
-									title: '用户账号或密码不正确',
-								});
+								// uni.showToast({
+								// 	icon: 'none',
+								// 	title: '用户账号或密码不正确',
+								// });
 							}
 						}).catch(function(error) {
 							console.log(error);

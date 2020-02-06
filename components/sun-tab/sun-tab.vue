@@ -92,7 +92,7 @@
 				this.$emit('change',{tab:tab});
 			},
 			icon(img) {
-				console.log(img)
+				// console.log(img)
 				if (img === 0) {
 					return '../../static/img/zfb.png';
 				}

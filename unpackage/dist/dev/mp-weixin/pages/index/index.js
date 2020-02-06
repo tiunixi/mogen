@@ -158,7 +158,7 @@ var _default =
         if (value) {
           if (value == true) {
             uni.switchTab({
-              url: '/pages/tabBar/component/component' });
+              url: '/pages/main/main' });
 
           } else {
             uni.redirectTo({
@@ -190,7 +190,7 @@ var _default =
       }
       return;
       uni.switchTab({
-        url: '/pages/tabBar/component/component' });
+        url: '/pages/main/main' });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

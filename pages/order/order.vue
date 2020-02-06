@@ -1,8 +1,8 @@
 <template>
  	<view class="content">
  		<view class="oder-head">
-			<form @submit="formSubmit" @reset="formReset">
- 				<view class="uni-form-item uni-column">
+			<!-- <form @submit="formSubmit" @reset="formReset"> -->
+ 				<!-- <view class="uni-form-item uni-column">
  				    <view class="title">开工状态</view>
  					<view class="kong">
  						
@@ -10,7 +10,7 @@
  				    <view class="user-switch">
  				        <switch name="switch" />
  				    </view>
- 				</view>
+ 				</view> -->
 				<view class="oder-ins">
 					<view class="status">
 						返款银行信息
@@ -25,7 +25,7 @@
 						账号：1234543231224354432
 					</view>
 				</view>
- 			</form>
+ 			<!-- </form> -->
  		</view>
 		<view class="order-money">
 			<view class="money-head">
@@ -139,7 +139,7 @@
 		}
 	}
  	.oder-head {
- 		display: flex;
+ 		// display: flex;
  		border-radius: 12upx;
  		// border: 1upx solid #8F8F94;
 		box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
@@ -172,14 +172,14 @@
 	}
 		
 	.oder-ins {
-		border-top: 1px solid #dedede;
+		// border-top: 1px solid #dedede;
 		width: 90%;
 		margin: 20upx auto;
-		font-size: 26upx;
+		font-size: 35upx;
 	}
 	.order-money {
-		// border: 1px  #8F8F94 solid;	
-		  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+		font-size: 30upx;
+		box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 		border-radius: 12upx;
 		margin-top: 60upx;
 		height: 620upx;

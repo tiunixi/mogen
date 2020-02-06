@@ -169,7 +169,7 @@ var _service = _interopRequireDefault(__webpack_require__(/*! ../../service.js *
 
 
 
-var _uniRequest = _interopRequireDefault(__webpack_require__(/*! uni-request */ 104));
+var _uniRequest = _interopRequireDefault(__webpack_require__(/*! uni-request */ 140));
 var _vuex = __webpack_require__(/*! vuex */ 16);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};
 
 
@@ -274,8 +274,13 @@ var BASE_URL = 'http://www.luominus.com/';var _default =
         then(function (response) {
           if (response.status === 200) {
             console.log(response);
-            // 登录成功后存入缓存数据addUser
-            _service.default.addUser(data);
+            // 登录成功后存入缓存数据addUser 
+            var newData = {
+              account: data.account,
+              pwd: data.pwd,
+              token: response.data.data.token };
+
+            _service.default.addUser(newData);
             uni.showToast({
               icon: 'none',
               title: '登陆成功' });
@@ -286,10 +291,10 @@ var BASE_URL = 'http://www.luominus.com/';var _default =
 
           } else
           {
-            uni.showToast({
-              icon: 'none',
-              title: '用户账号或密码不正确' });
-
+            // uni.showToast({
+            // 	icon: 'none',
+            // 	title: '用户账号或密码不正确',
+            // });
           }
         }).catch(function (error) {
           console.log(error);

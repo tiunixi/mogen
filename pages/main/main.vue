@@ -3,14 +3,14 @@
  		<view class="main-head">
 			<form @submit="formSubmit" @reset="formReset">
 				<view class="all-money border">
-					<view class="title">694.17</view>
+					<view class="title">{{menus.all_income}}</view>
 					<view class="kong">
 						
 					</view>
 					<view class="yuan">总收益（元）</view>
 					<!-- <view class="user-switch">总收益（元）</view> -->
 				</view>
- 				<view class="uni-form-item uni-column">
+ 				<!-- <view class="uni-form-item uni-column">
  				    <view class="title">开工状态</view>
  					<view class="kong">
  						
@@ -18,44 +18,44 @@
  				    <view class="user-switch">
  				        <switch name="switch" />
  				    </view>
- 				</view>
+ 				</view> -->
 				<view class="main-border">
 					<view class="status">
 						当前状态：启用
 					</view>
 					<view class="">
-						当前额度：10000.00
+						当前额度：{{menus.limit}}
 					</view>
 				</view>
  			</form>
  		</view>
-		<view class="main-acrd">
+		<view class="main-acrd" >
 			<view class="col col-one-border">
 				<view class="row row-botton">
-					<view class="row-center row-top row-number">10</view>
-					<view class="row-center row-word">今日累积下单</view>
+					<view class="row-center row-top row-number">{{menus.today_order_num}}</view>
+					<view class="row-center row-word">今日累积订单</view>
 				</view>
 				<view class="row row-botton">
-					<view class="row-center row-top row-number">10</view>
-					<view class="row-center row-word">今日累积下单</view>
+					<view class="row-center row-top row-number">{{menus.today_price}}</view>
+					<view class="row-center row-word">今日累积金额</view>
 				</view>
 				<view class="row">
-					<view class="row-center row-top row-number">10</view>
-					<view class="row-center row-word">今日累积下单</view>
+					<view class="row-center row-top row-number">{{menus.today_income}}</view>
+					<view class="row-center row-word">今日收益</view>
 				</view>
 			</view>
 			<view class="col">
 				<view class="row row-botton">
-					<view class="row-center row-top row-number">10</view>
-					<view class="row-center row-word">今日累积下单</view>
+					<view class="row-center row-top row-number">{{menus.today_success_order_num}}</view>
+					<view class="row-center row-word">今日成功订单</view>
 				</view>
 				<view class="row row-botton">
-					<view class="row-center row-top row-number">10</view>
-					<view class="row-center row-word">今日累积下单</view>
+					<view class="row-center row-top row-number">{{menus.today_success_price}}</view>
+					<view class="row-center row-word">今日成功金额</view>
 				</view>
 				<view class="row">
-					<view class="row-center row-top row-number">10</view>
-					<view class="row-center row-word">今日累积下单</view>
+					<view class="row-center row-top row-number">{{menus.todo_price}}</view>
+					<view class="row-center row-word">今日未结金额</view>
 				</view>
 			</view>
 		</view>
@@ -69,6 +69,8 @@
 	 } from 'vuex';
 	 import service from '../../service.js';
 	 import mInput from '../../components/m-input.vue';
+	 const BASE_URL = 'http://www.luominus.com/';
+	 import uniRequest from 'uni-request';
 	 export default {
 	 	computed: mapState(['forcedLogin', 'hasLogin', 'userName','avatarUrl']),
 		components: {
@@ -76,7 +78,17 @@
 		},
 		data() {
 			return {
-				
+				menus:{
+					all_income:0,
+					status: 1,
+					limit: 0,
+					today_order_num: 0,
+					today_success_order_num: 0,
+					today_price: 0,
+					today_success_price: 0,
+					today_income: 0,
+					todo_price: 0,
+				}
 			}
 		},
 		methods: {
@@ -89,11 +101,87 @@
 		},
 	 	onLoad() {
 	 		if (!this.hasLogin) {
+				uni.showLoading({
+				    title: '加载中'
+				});
+				
+				setTimeout(function () {
+				    uni.hideLoading();
+				}, 2000);
 				let validUser = service.getUsers();
 				if (validUser.length !== 0) {
 					// 存在缓存数据getUsers（）对象
-					// 如果存在缓存,需要根据缓存的信息请求数据
-					// this.toMain(this.account);
+					console.log(validUser[0].token)
+					const newData = {
+						token:validUser[0].token
+					}
+					uni.request({  
+						url:BASE_URL + "api/v1/Index/indexData",  
+						data: newData,  
+						method:'GET',  
+						dataType:'json',  
+						header:{  
+							'content-type':'application/json'  
+						},
+						success: (e) =>{  
+							console.log(e) 
+							 if (e.statusCode === 200) {
+							 	if (e.data.code === 200) {
+							 		var myData = e.data.data
+							 		this.menus = {
+							 			all_income: myData.all_income,
+							 			status: myData.status,
+							 			limit: myData.limit,
+							 			today_order_num: myData.today_order_num,
+							 			today_success_order_num: myData.today_success_order_num,
+							 			today_price: myData.today_price,
+							 			today_success_price: myData.today_success_price,
+							 			today_income: myData.today_income,
+							 			todo_price: myData.todo_price,
+							 		}
+							 		console.log(this.menus)
+							 	}
+							 }
+						},  
+					})
+					// uniRequest.get(BASE_URL + "api/v1/Index/indexData",newData)
+					// 	.then(function(e) {
+					// 		console.log(e);
+					// 		if (e.status === 200) {
+					// 			console.log(e);
+					// 			if (e.data.code === 200) {
+					// 				var myData = e.data.data
+					// 				this.menus = {
+					// 					all_income: myData.all_income,
+					// 					status: myData.status,
+					// 					limit: myData.limit,
+					// 					today_order_num: myData.today_order_num,
+					// 					today_success_order_num: myData.today_success_order_num,
+					// 					today_price: myData.today_price,
+					// 					today_success_price: myData.today_success_price,
+					// 					today_income: myData.today_income,
+					// 					todo_price: myData.todo_price,
+					// 				}
+					// 				console.log(this.menus)
+					// 			}
+					// 			uni.showToast({
+					// 				icon: 'none',
+					// 				title: '登陆成功',
+					// 			});
+					// 			// that.toMain(data.account);
+					// 			uni.reLaunch({
+					// 				url: '../main/main',
+					// 			});
+					// 		}
+					// 		else {
+					// 			uni.showToast({
+					// 				icon: 'none',
+					// 				title: '用户账号或密码不正确',
+					// 			});
+					// 		}
+					// 	}).catch(function(error) {
+					// 		console.log(error);
+					// 	});
 				} else {
 					uni.showModal({
 						title: '未登录',
@@ -144,10 +232,10 @@
 			font-size: 52upx;
 		}	
 		.kong {
-			width: 45%;
+			width: 40%;
 		}
 		.yuan {
-			width: 25%;
+			width: 30%;
 			font-size: 22upx;
 			color: #c5c5c5;
 		}
@@ -240,6 +328,7 @@
 		height: 90upx;
 		line-height: 90upx;
 		margin-top: 33px;
+		background-color: #ff6666;
 	}
  </style>
  
