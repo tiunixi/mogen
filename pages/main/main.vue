@@ -78,6 +78,7 @@
 		},
 		data() {
 			return {
+				tryAPP:[],
 				menus:{
 					all_income:0,
 					status: 1,
@@ -100,10 +101,12 @@
 			}
 		},
 	 	onLoad() {
+			this.tryAPP=[1,2,3]
 	 		if (!this.hasLogin) {
 				uni.showLoading({
 				    title: '加载中'
 				});
+				this.$forceUpdate();
 				
 				setTimeout(function () {
 				    uni.hideLoading();

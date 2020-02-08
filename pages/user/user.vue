@@ -16,7 +16,7 @@
 						
 					</view>
 				    <view class="user-switch">
-				        <switch name="switch" :checked="treatmentStatu.checked" @change="switchChange"/>
+						<switch name="switch" :checked="treatmentStatu.checked" @change="switchChange"/>
 				    </view>
 				</view>
 			<!-- </form> -->
@@ -25,13 +25,41 @@
 			<sun-tab :value.sync="swiperIndex" :tabList="tabSwiperList"></sun-tab>
 				<swiper :current="swiperIndex" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)" indicator-active-color="rgba(255,255,255,0)" @change="swiperChange" class="tab-word">
 					<swiper-item v-for="(swiper,index) in tabSwiperList" :key="index">
-						<view style="margin:0 20px;background-color: #FFFFFF;text-align: center;">
-							<image :src=img(index) mode="" class="special-img"></image>
-							<view class="money">
-								<p>已收款20笔，123333元</p>
-								<button class="mini-btn off" type="default" size="mini">删除</button>
-								<span>  </span>
-								<button class="mini-btn del" type="default" size="mini">关闭</button>
+						<view v-if="!showOrNo(index)" style="margin:0 20px;background-color: #FFFFFF;text-align: center;">
+							<view class="uni-padding-wrap uni-common-mt">
+								<!-- wx -->
+								<view class="demo">
+									<block v-if="imageSrc && img(menus.wx.img)">
+										<image :src="menus.wx.img" class="image" mode="widthFix"></image>
+										<view class="money">
+											<p>已收款{{menus.wx.count}}笔，{{menus.wx.price}}元</p>
+											<button class="mini-btn off" type="default"  size="mini" @click="chooseImageWX(index)">重新上传</button>
+											<!-- <span>  </span> -->
+											<!-- <button class="mini-btn del" type="default" size="mini">关闭</button> -->
+										</view>
+									</block>
+									<block v-else>
+										<view class="uni-hello-addfile" @click="chooseImageWX(index)">+ 选择图片</view>
+									</block>
+								</view>
+							</view>
+						</view>
+						<view v-if="showOrNo(index)" style="margin:0 20px;background-color: #FFFFFF;text-align: center;">
+							<view class="uni-padding-wrap uni-common-mt">
+								<view class="demo">
+									<block v-if="imageSrc && img(menus.zfb.img)">
+										<image :src="menus.zfb.img" class="image" mode="widthFix"></image>
+										<view class="money">
+											<p>已收款{{menus.zfb.count}}笔，{{menus.zfb.price}}元</p>
+											<button class="mini-btn off" type="default"  size="mini" @click="chooseImageZFB(index)">重新上传</button>
+											<!-- <span>  </span>
+											<button class="mini-btn del" type="default" size="mini">关闭</button> -->
+										</view>
+									</block>
+									<block v-else>
+										<view class="uni-hello-addfile" @click="chooseImageZFB(index)">+ 选择图片</view>
+									</block>
+								</view>
 							</view>
 						</view>
 					</swiper-item>
@@ -46,16 +74,19 @@
 		mapState,
 		mapMutations
 	} from 'vuex';
+	import sunUiUpimg from '@/components/sunui-upimg/sunui-upimg.vue';
 	import mInput from '../../components/m-input.vue'
 	import sunTab from '@/components/sun-tab/sun-tab.vue';
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
-
+	import service from '../../service.js';
 	const BASE_URL = 'http://www.luominus.com/';
+	const IMG_URL = 'http://www.luominus.com/static/frontend/images/upload.png';
 	import uniRequest from 'uni-request';
+	// import toUpImg from '../../upImg.js';
 	export default {
 		computed: mapState(['forcedLogin', 'hasLogin', 'userName','avatarUrl']),
 		components: {
-			sunTab,mInput,uniNavBar
+			sunTab,mInput,uniNavBar,'sunui-upimg': sunUiUpimg
 		},
 		data() {
 			return {
@@ -64,28 +95,35 @@
 				account: '',
 				tabSwiperList: ['支付宝','微信',],
 				treatmentStatu: { checked: false },
+				upimg_move: false,
+				imageSrc: false,
 				menus : {
 							"wx": {
-					            "img": "http://www.luominus.com/",
+					            "img": IMG_URL,
 					            "price": 0,
 					            "count": 0,
-					            "status": null
+					            "status": 0
 					        },
 					        "zfb": {
-					            "img": "http://www.luominus.com/222",
-					            "price": 3000,
-					            "count": 3,
-					            "status": 3
+					            "img":IMG_URL,
+					            "price": 0,
+					            "count": 0,
+					            "status": 0
 					        },
-					        "user_name": "收款人3",
-					        "user_mobile": "17766666669"
-				}
+					        "user_name": "",
+					        "user_mobile": ""
+				},
+				
 			}
 		},
 		computed: {
 			...mapState(['hasLogin', 'forcedLogin'])
 		},
+		onUnload() {
+			this.imageSrc = false;
+		},
 		onLoad() {
+			var that = this
 				if (!this.hasLogin) {
 					uni.showLoading({
 					    title: '加载中'
@@ -94,9 +132,10 @@
 						if (validUser.length !== 0) {
 							const newData = {
 								token:validUser[0].token
+								
 							}
 							// 存在缓存数据getUsers（）对象
-							console.log(validUser[0].token)
+							// console.log(validUser[0].token)
 							
 							setTimeout(function () {
 							    uni.hideLoading();
@@ -112,26 +151,23 @@
 								success: (e) =>{  
 									console.log(e) 
 									 if (e.statusCode === 200) {
-									 	if (e.data.code === 200) {
 									 		var myData = e.data.data
-									 		this.menus = {
-									 			"wx": {
-													"img": "http://www.luominus.com/",
-													"price": 0,
-													"count": 0,
-													"status": null
-												},
-												"zfb": {
-													"img": "http://www.luominus.com/222",
-													"price": 3000,
-													"count": 3,
-													"status": 3
-												},
-												"user_name": "收款人3",
-												"user_mobile": "17766666669"
+									 		that.menus = {
+									 			wx : e.data.data.wx,
+												"zfb":e.data.data.zfb,
+												"user_name": e.data.data.user_name,
+												"user_mobile": e.data.data.user_mobile
 									 		}
-									 		console.log(this.menus)
-									 	}
+											that.imageSrc = true
+											if (myData.status === 1) {
+												//1 未开工
+												that.treatmentStatu = { checked: false }
+											}
+											else{
+												that.treatmentStatu = { checked: true }
+											}
+									 		console.log(that.menus)
+									 	
 									 }
 								},  
 							})
@@ -164,8 +200,183 @@
 				}
 			}
 		,
+		//退出登录
+		onNavigationBarButtonTap(e) {
+		    console.log("success")  
+			uni.removeStorage({
+			    key: 'USERS_KEY',
+			    success: function (res) {
+			        console.log('success');
+			    }
+			});
+			  uni.navigateTo({
+				url: '../login/login',
+			  });
+		},
 		methods: {
 			...mapMutations(['logout']),
+			chooseImageZFB: function(index) {
+				var that = this
+					uni.chooseImage({
+						count: 1,
+						sizeType: ['compressed'],
+						sourceType: ['album'],
+						success: (res) => {
+							console.log('chooseImage success, temp path is', res.tempFilePaths[0])
+							var imageSrc = res.tempFilePaths[0]
+							
+							uni.uploadFile({
+								url: BASE_URL+ "api/v1/Index/uploadImg",
+								filePath: imageSrc,
+								fileType: 'image',
+								name: 'file',
+								success: (res) => {
+									console.log('uploadImage success, res is:', res)
+									that.imageSrc = true
+									that.menus.zfb.img = imageSrc
+									let validUser = service.getUsers();
+									var upPicData = {
+										code: that.imageSrc ,
+										type: 1,
+										token:validUser[0].token,
+									}
+									console.log(upPicData)
+									uniRequest.post(BASE_URL + "api/v1/User/addCode", upPicData)
+										.then(function(response) {
+											console.log(response);
+											if (response.status === 200) {
+												uni.showToast({
+													title: '上传成功',
+													icon: 'success',
+													duration: 1000
+												})
+											}
+											else {
+												// uni.showToast({
+												// 	icon: 'none',
+												// 	title: '用户账号或密码不正确',
+												// });
+											}
+										}).catch(function(error) {
+											console.log(error);
+										});
+									
+								},
+								fail: (err) => {
+									console.log('uploadImage fail', err);
+									uni.showModal({
+										content: err.errMsg,
+										showCancel: false
+									});
+								}
+							});
+						},
+						fail: (err) => {
+							console.log('chooseImage fail', err)
+							// #ifdef MP
+							uni.getSetting({
+								success: (res) => {
+									let authStatus = res.authSetting['scope.album'];
+									if (!authStatus) {
+										uni.showModal({
+											title: '授权失败',
+											content: 'Hello uni-app需要从您的相册获取图片，请在设置界面打开相关权限',
+											success: (res) => {
+												if (res.confirm) {
+													uni.openSetting()
+												}
+											}
+										})
+									}
+								}
+							})
+							// #endif
+						}
+					})
+				},
+			
+			chooseImageWX: function(index) {
+				var that = this
+					uni.chooseImage({
+						count: 1,
+						sizeType: ['compressed'],
+						sourceType: ['album'],
+						success: (res) => {
+							console.log('chooseImage success, temp path is', res.tempFilePaths[0])
+							var imageSrc = res.tempFilePaths[0]
+							
+							uni.uploadFile({
+								url: BASE_URL+ "api/v1/Index/uploadImg",
+								filePath: imageSrc,
+								fileType: 'image',
+								name: 'file',
+								success: (res) => {
+									console.log('uploadImage success, res is:', res)
+									that.imageSrc = true
+									that.menus.wx.img = imageSrc
+									let validUser = service.getUsers();
+									var upPicData = {
+										code: that.imageSrc ,
+										type: 2,
+										token:validUser[0].token,
+									}
+									console.log(upPicData)
+									uniRequest.post(BASE_URL + "api/v1/User/addCode", upPicData)
+										.then(function(response) {
+											console.log(response);
+											if (response.status === 200) {
+												
+												uni.showToast({
+													title: '上传成功',
+													icon: 'success',
+													duration: 1000
+												})
+											}
+											else {
+												// uni.showToast({
+												// 	icon: 'none',
+												// 	title: '用户账号或密码不正确',
+												// });
+											}
+										}).catch(function(error) {
+											console.log(error);
+										});
+									
+								},
+								fail: (err) => {
+									console.log('uploadImage fail', err);
+									uni.showModal({
+										content: err.errMsg,
+										showCancel: false
+									});
+								}
+							});
+						},
+						fail: (err) => {
+							console.log('chooseImage fail', err)
+							// #ifdef MP
+							uni.getSetting({
+								success: (res) => {
+									let authStatus = res.authSetting['scope.album'];
+									if (!authStatus) {
+										uni.showModal({
+											title: '授权失败',
+											content: 'Hello uni-app需要从您的相册获取图片，请在设置界面打开相关权限',
+											success: (res) => {
+												if (res.confirm) {
+													uni.openSetting()
+												}
+											}
+										})
+									}
+								}
+							})
+							// #endif
+						}
+					})
+				},
+			
+			
 			bindLogin() {
 				uni.navigateTo({
 					url: '../login/login',
@@ -182,78 +393,66 @@
 					});
 				}
 			},
-			arrayChange(e){
-				// console.log('数组数据返回格式');
-				// console.log(e);
-			},
-			objectChange(e){
-				// console.log('对象数据返回格式');
-				// console.log(e);
-			},
 			swiperChange(e){
 				this.swiperIndex = e.target.current;
 			},
-			img(img) {
-				console.log(this.menus)
+			showOrNo(img) {
+				// console.log(img)
 				if (img === 0) {
-					return '../../static/img/payZFB.jpg';
+						return true;
 				}
-				else
+				else if(img === 1)
 				{
-					return '../../static/img/payWX.jpeg';
+					return false;
 				}
+			},
+			img(img) {
+				// console.log(img)
+				// console.log(img === IMG_URL)
+				return (img !== IMG_URL);
 			},
 			switchChange (e) {
 				let value = e.target.value
 				let that = this
 				this.$set(this.treatmentStatu, 'checked', value)   // 将点击改变的状态赋给treatmentStatu.checked
 				console.log(value)
+				console.log(!this.havePromise)
+				var  newStatus = 1
 				if (value && !this.havePromise) {
-					if (value === true) {
-						const data = {status:2}
-						uniRequest.post(BASE_URL + "api/v1/Index/changeWorkStatus", data)
-							.then(function(response) {
-								console.log(response);
-								if (response.status === 200) {
-									// console.log(response);
-									// 登录成功后存入缓存数据addUser
-									service.addUser(data)
-									uni.showToast({
-										icon: 'none',
-										title: '登陆成功',
-									});
-									// that.toMain(data.account);
-									
-								}
-								else {
-									uni.showToast({
-										icon: 'none',
-										title: '用户账号或密码不正确',
-									});
-								}
-							}).catch(function(error) {
-								console.log(error);
-							});
-					}
-					// uni.showModal({
-					// 	title: '提示',
-					// 	content: '您还没设置接诊承诺，是否前往设置',
-					// 	success: function (res) {
-					// 		if (res.confirm) {
-					// 			that.$emit('changePage', 1)
-					// 			console.log('用户点击确定')
-					// 		} else if (res.cancel) {
-					// 			that.$set(that.treatmentStatu, 'checked', false)  // 手动修改switch的状态，视图会同步更新
-					// 			console.log('用户点击取消');
-					// 		}
-					// 	}
-					// });
+					newStatus =2
+					that.$set(that.treatmentStatu, 'checked', false)  // 手动修改switch的状态，视图会同步更新
+					
 				}
+				let validUser = service.getUsers();
+				const data = {status:newStatus,token:validUser[0].token}
+				uniRequest.post(BASE_URL + "api/v1/Index/changeWorkStatus", data)
+					.then(function(response) {
+						if (response.status === 200) {
+							console.log(response);
+							
+						}
+						else {
+							uni.showToast({
+								icon: 'none',
+								title: '请稍候重试',
+							});
+						}
+					}).catch(function(error) {
+						console.log(error);
+					});
 			}
 		}
 	}
 </script>
 <style lang="less">
+	.image {
+		width: 100%;
+	}
+	
+	.demo {
+		background: #FFF;
+		padding: 50upx;
+	}
 .uni-page-head-ft {
 	position: relative;
 	right: 19px;
@@ -269,36 +468,90 @@
 	position: relative;
 	right: 19px;
 }
+.sunui-img-removeicon {
+	position: absolute;
+	color: #fff;
+	width: 40upx;
+	height: 40upx;
+	line-height: 40upx;
+	z-index: 2;
+	text-align: center;
+	background-color: #E54D42;
+
+	&.right {
+		top: 0;
+		right: 0;
+	}
+}
+	.sunui-uploader-input {
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+	}
+
+	.sunui-uploader-inputbox {
+		position: relative;
+		margin-bottom: 16rpx;
+		box-sizing: border-box;
+		background-color: #ededed;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		width: 200px;
+		height: 200px;
+		margin: 0 auto;
+	}
+
+	.sunui-img-removeicon {
+		position: absolute;
+		color: #fff;
+		width: 40upx;
+		height: 40upx;
+		line-height: 40upx;
+		z-index: 2;
+		text-align: center;
+		background-color: #E54D42;
+
+		&.right {
+			top: 0;
+			right: 0;
+		}
+	}
+
+	.sunui-uploader-file {
+		position: relative;
+		margin-right: 16rpx;
+		margin-bottom: 16rpx;
+		    margin: 0 auto;
+	}
+
+	.sunui-uploader-file-status:before {
+		content: " ";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	.sunui-loader-filecontent {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		color: #fff;
+		z-index: 9;
+	}
 .content {
 	background: #FFFFFF;
 }
 .header {
-	// position: relative;
-	//     top: -20px;
-	// 	height: 44px;
-	// 	background: #fff;
-	// 	width:100%;
-	
-	// position: fixed;
-	// position: relative;
-	// text-align: center;
-		// .logout {
-		// 	position: absolute;
-		// 	top: 10upx;
-		// 	right: 5upx;
-		// 	color: #ff6666;
-		// 	font-size: 12px;
-		// }
-		// .my {
-		// 	margin-bottom: 25upx;
-		// 	font-weight: 700;
-		// 	font-size: 16px;
-		// 	line-height: 30px;
-		// 	text-align: center;
-		// 	overflow: hidden;
-		// 	white-space: nowrap;
-		// 	text-overflow: ellipsis;
-		// }
 	}
 .user-head {
 	// margin-top: 46px;
@@ -343,6 +596,7 @@ uni-form {
 	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 	border-radius: 12upx;
 	margin-top: 60upx;
+	// height: 630upx;
 	.tab-word {
 		height: 830upx;
 		// border-left: 1px  #8F8F94 solid;
@@ -353,6 +607,15 @@ uni-form {
 .special-img {
 	width: 500upx;
 	height: 600upx;
+}
+.up-img {
+	width: 400upx;
+	height: 400upx;
+	margin-top: 150upx;
+}
+	
+.mySunui {
+	margin-top: 50upx;
 }
 .money p {
 	margin: 30upx 0;

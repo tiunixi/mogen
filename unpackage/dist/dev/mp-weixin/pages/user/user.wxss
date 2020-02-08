@@ -1,3 +1,10 @@
+.image {
+  width: 100%;
+}
+.demo {
+  background: #FFF;
+  padding: 50rpx;
+}
 .uni-page-head-ft {
   position: relative;
   right: 19px;
@@ -10,6 +17,87 @@
 .uni-page-head-ft.data-v-3cf56398 {
   position: relative;
   right: 19px;
+}
+.sunui-img-removeicon.data-v-3cf56398 {
+  position: absolute;
+  color: #fff;
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  z-index: 2;
+  text-align: center;
+  background-color: #E54D42;
+}
+.sunui-img-removeicon.right.data-v-3cf56398 {
+  top: 0;
+  right: 0;
+}
+.sunui-uploader-input.data-v-3cf56398 {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.sunui-uploader-inputbox.data-v-3cf56398 {
+  position: relative;
+  margin-bottom: 16rpx;
+  box-sizing: border-box;
+  background-color: #ededed;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+.sunui-img-removeicon.data-v-3cf56398 {
+  position: absolute;
+  color: #fff;
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  z-index: 2;
+  text-align: center;
+  background-color: #E54D42;
+}
+.sunui-img-removeicon.right.data-v-3cf56398 {
+  top: 0;
+  right: 0;
+}
+.sunui-uploader-file.data-v-3cf56398 {
+  position: relative;
+  margin-right: 16rpx;
+  margin-bottom: 16rpx;
+  margin: 0 auto;
+}
+.sunui-uploader-file-status.data-v-3cf56398:before {
+  content: " ";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.sunui-loader-filecontent.data-v-3cf56398 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #fff;
+  z-index: 9;
 }
 .content.data-v-3cf56398 {
   background: #FFFFFF;
@@ -60,6 +148,14 @@ uni-form.data-v-3cf56398 {
 .special-img.data-v-3cf56398 {
   width: 500rpx;
   height: 600rpx;
+}
+.up-img.data-v-3cf56398 {
+  width: 400rpx;
+  height: 400rpx;
+  margin-top: 150rpx;
+}
+.mySunui.data-v-3cf56398 {
+  margin-top: 50rpx;
 }
 .money ._p.data-v-3cf56398 {
   margin: 30rpx 0;

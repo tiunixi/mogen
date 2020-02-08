@@ -88,9 +88,6 @@
  		},
  		onLoad() {
  				if (!this.hasLogin) {
-					const newData = {
-						token:validUser[0].token
-					}
 					uni.showLoading({
 					    title: '加载中'
 					});
@@ -99,6 +96,9 @@
  							// 存在缓存数据getUsers（）对象
  							console.log(validUser[0].token)
  							
+							const newData = {
+								token:validUser[0].token
+							}
  							setTimeout(function () {
  							    uni.hideLoading();
  							}, 2000);

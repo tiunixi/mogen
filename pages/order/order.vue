@@ -1,117 +1,216 @@
 <template>
  	<view class="content">
  		<view class="oder-head">
-			<!-- <form @submit="formSubmit" @reset="formReset"> -->
- 				<!-- <view class="uni-form-item uni-column">
- 				    <view class="title">开工状态</view>
- 					<view class="kong">
- 						
- 					</view>
- 				    <view class="user-switch">
- 				        <switch name="switch" />
- 				    </view>
- 				</view> -->
 				<view class="oder-ins">
 					<view class="status">
 						返款银行信息
 					</view>
 					<view class="">
-						户名：黄祥松
+						户名：{{user.name}}
 					</view>
 					<view class="status">
-						银行：农业银行
+						银行：{{user.bink}}
 					</view>
 					<view class="">
-						账号：1234543231224354432
+						账号：{{user.num}}
 					</view>
 				</view>
- 			<!-- </form> -->
  		</view>
-		<view class="order-money">
+		<view class="order-money"  v-for="(item,index) in order" :key="index">
+			<view @tab="toNewPage(item)">
+			<navigator :url="'/pages/orderPage/orderPage?item='+ encodeURIComponent(JSON.stringify(item))">
 			<view class="money-head">
 				<view class="money-number">
-					<p class="number">订单编号：5424</p>
-					<p class="time">订单时间：2020-01-29 17：33：22</p>
+					<p class="number">订单编号：{{item.id}}</p>
+					<p class="time">订单时间：{{item.create_time}}</p>
 				</view>
 				<view class="money-prompt">
-					订单支付超时取消
+					{{item.order_status}}
 				</view>
 			</view>
 			
 			<view class="oder-main">
 				<view class="status">
-					商户订单号：fhifdifshfdvdvdsihv
+					商户订单号：{{item.order_num}}
 				</view>
 				<view class="oder-main-money">
 					交 易 金 额：
-					<span>111100.00</span>
+					<span>{{item.collection_user_price}}</span>
 				</view>
 				<view class="status">
-					支 付 方 式：支付宝
+					支 付 方 式：{{item.pay_type}}
 				</view>
 				<view class="">
-					待 返 金 额：0
+					待 返 金 额：{{item.order_num}}
+				</view>
+				<view class="status">
+					返 款 状 态：{{item.back_status}}
 				</view>
 				<view class="status">
 					<span class="word">收  款  码：</span>
-					<image class="image" src="../../static/img/payZFB.jpg" mode=""></image>
+					<image class="image" :src="item.img" mode=""></image>
 				</view>
+			</view>
+			</navigator>
 			</view>
 		</view>
-
-		<view class="order-money">
-			<view class="money-head">
-				<view class="money-number">
-					<p class="number">订单编号：5424</p>
-					<p class="time">订单时间：2020-01-29 17：33：22</p>
-				</view>
-				<view class="money-prompt">
-					订单支付超时取消
-				</view>
-			</view>
-			
-			<view class="oder-main">
-				<view class="status">
-					商户订单号：fhifdifshfdvdvdsihv
-				</view>
-				<view class="oder-main-money">
-					交 易 金 额：
-					<span>111100.00</span>
-				</view>
-				<view class="status">
-					支 付 方 式：支付宝
-				</view>
-				<view class="">
-					待 返 金 额：0
-				</view>
-				<view class="status">
-					<span class="word">收  款  码：</span>
-					<image class="image" src="../../static/img/payZFB.jpg" mode=""></image>
-				</view>
-			</view>
+		<view class="example-body">
+			<uni-pagination :current="current" :total="total" title="标题文字" :show-icon="true" @change="change" />
 		</view>
 		
  	</view>
  </template>
  
  <script>
+	 import service from '../../service.js';
+	 const BASE_URL = 'http://www.luominus.com/';
+	 import uniPagination from '@/components/uni-pagination/uni-pagination.vue'
+	 import uniList from '@/components/uni-list/uni-list.vue'
+	 import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
+	 // import uniSection from '@/components/uni-section/uni-section.vue'
  	export default {
- 		components: {
- 			// sunTab
- 		},
- 		data() {
- 			return {
- 				
- 			}
- 		},
- 		onLoad() {
- 
- 		},
- 		methods: {
+ 	components: {
+ 		uniPagination,
+ 		uniList,
+ 		uniListItem,
+ 		// uniSection
+ 	},
+ 	data() {
+ 		return {
+ 			current: 1,
+ 			total: 0,
+ 			pageSize: 10,
+				
+			user: {
+				name:'',
+				bink:'',
+				num:''
+			},
+			order:[{
+				id: '',
+				back_status: "",
+				order_status: "",
+				order_num: "",
+				collection_code_id: 0,
+				create_time: "",
+				merchants_order_num: "",
+				price: 0,
+				collection_user_price: 0,
+				pay_type: "",
+				img: "",
+			}]
  		}
+ 	},
+	onLoad() {
+		let validUser = service.getUsers();
+			if (validUser.length !== 0) {
+				// uni.showLoading({
+				//     title: '加载中'
+				// });
+			const newData = {
+				token:validUser[0].token,
+				// token:'hy3fB7yKi8dWZtgCyrJYRA==',
+				page: this.current,
+				limit:this.pageSize
+			}
+			
+			uni.request({
+				url:BASE_URL + "api/v1/Index/orderList",  
+				data: newData,  
+				method:'GET',  
+				dataType:'json',  
+				header:{  
+					'content-type':'application/json'  
+				},
+				success: (e) =>{  
+					console.log(e) 
+					 if (e.statusCode === 200) {
+						if (e.data.code === 200) {
+							var myData = e.data.data
+							this.add( e.data.data)
+							this.user = {
+								name:myData.bank_info.user_name,
+								bink:myData.bank_info.name,
+								num:myData.bank_info.card_id
+							}
+							this.order = myData.order_list.map((item) => {
+								return {
+									id: item.id,
+									back_status: item.back_status,
+									order_status: item.order_status,
+									order_num: item.order_num,
+									collection_code_id: item.collection_code_id, //人工
+									create_time: item.create_time, //安全敏
+									merchants_order_num: item.merchants_order_num, //政治敏
+									collection_user_price: item.collection_user_price, //机器人对话轮数
+									pay_type: item.pay_type, 
+									img: item.img, 
+									order_status_num:  item.order_status_num
+								};
+							});
+							console.log(	this.order)
+						}
+					 }
+				},  
+			})
+		}
+	},
+ 	methods: {
+		toNewPage(item) {
+			// uni.navigateTo({
+			//     url: 'test?id=1&name=uniapp'
+			// });
+		},
+		add(n) {
+			console.log('add')
+ 			this.total += n
+ 		},
+ 		reset() {
+ 			this.total = 0
+ 			this.current = 1
+ 		},
+ 		change(e) {
+ 			console.log(e)
+			console.log(e.current)
+ 			this.current = e.current
+			let validUser = service.getUsers();
+				if (validUser.length !== 0) {
+					// uni.showLoading({
+					//     title: '加载中'
+					// });
+				const newData = {
+					token:validUser[0].token,
+					// token:'hy3fB7yKi8dWZtgCyrJYRA==',
+					page: this.current,
+					limit:this.pageSize
+				}
+				
+				uni.request({
+					url:BASE_URL + "api/v1/Index/orderList",  
+					data: newData,  
+					method:'GET',  
+					dataType:'json',  
+					header:{  
+						'content-type':'application/json'  
+					},
+					success: (e) =>{  
+						console.log(e) 
+						 if (e.statusCode === 200) {
+							if (e.data.code === 200) {
+								var myData = e.data.data
+							
+								// console.log(this.menus)
+							}
+						 }
+					},  
+				})
+			}
+ 		}
+ 	}
  	}
  </script>
  <style lang="scss" scoped>
+	 
  	.content {
  		background: #FFFFFF;
  	}
@@ -186,7 +285,7 @@
 		.money-head {
 			display: flex;	
 			.money-number {
-				flex: 1;
+				flex: 60%;
 				box-sizing: border-box;
 				padding: 20upx;
 				.number{
@@ -198,9 +297,9 @@
 				}
 			}
 			.money-prompt {
-				flex: 1;
+				flex: 40%;
 				text-align: center;
-				font-size: 33upx;
+				font-size: 30upx;
 				color: #eeb68a;
 				margin-top: 4%;
 			}
@@ -234,218 +333,125 @@
 	
 	
  </style>
+<style>
+	/* 头条小程序组件内不能引入字体 */
+	/* #ifdef MP-TOUTIAO */
+	@font-face {
+		font-family: uniicons;
+		font-weight: normal;
+		font-style: normal;
+		src: url('~@/static/uni.ttf') format('truetype');
+	}
 
+	/* #endif */
+
+	/* #ifndef APP-NVUE */
+	page {
+		display: flex;
+		flex-direction: column;
+		box-sizing: border-box;
+		background-color: #efeff4;
+		min-height: 100%;
+		height: auto;
+	}
+
+	view {
+		font-size: 14px;
+		line-height: inherit;
+	}
+
+	.example {
+		padding: 0 15px 15px;
+	}
+
+	.example-info {
+		padding: 15px;
+		color: #3b4144;
+		background: #ffffff;
+	}
+
+	.example-body {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 0;
+		font-size: 14px;
+		background-color: #ffffff;
+	}
+
+	/* #endif */
+	.example {
+		padding: 0 15px;
+	}
+
+	.example-info {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
+		padding: 15px;
+		color: #3b4144;
+		background-color: #ffffff;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	.example-info-text {
+		font-size: 14px;
+		line-height: 20px;
+		color: #3b4144;
+	}
+
+
+	.example-body {
+		flex-direction: column;
+		padding: 15px;
+		background-color: #ffffff;
+	}
+
+	.word-btn-white {
+		font-size: 18px;
+		color: #FFFFFF;
+	}
+
+	.word-btn {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		border-radius: 6px;
+		height: 48px;
+		margin: 15px;
+		background-color: #007AFF;
+	}
+
+	.word-btn--hover {
+		background-color: #4ca2ff;
+	}
+
+
+	.example-body {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
+	}
+
+	.btn-view {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		/* #endif */
+		padding: 15px;
+		text-align: center;
+		background-color: #fff;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.button {
+		margin-bottom: 20px;
+		width: 350px;
+	}
+</style>
  
- <!-- <template>
- 	<view class="content">
-		<view class="user-head">
-			 <form @submit="formSubmit" @reset="formReset">
-			    <view class="input-row border">
-			    	<text class="title">姓 名：</text>
-			    	<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号">tinuxi</m-input>
-			    </view>
-				<view class="input-row border">
-					<text class="title">手机号：</text>
-					<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号">19987183997</m-input>
-				</view>
-				<view class="uni-form-item uni-column">
-				    <view class="title">开工状态</view>
-					<view class="kong">
-						
-					</view>
-				    <view class="user-switch">
-				        <switch name="switch" />
-				    </view>
-				</view>
-			</form>
-		</view>
- 		<view class="p10">普通使用</view>
- 		<sun-tab :value.sync="index" :tabList="tabList"></sun-tab>
- 		<view class="p10">更换颜色</view>
- 		<sun-tab :value.sync="index" @change="arrayChange" :tabList="tabColorList" activeColor="#f37b1d" defaultColor="#FFFFFF" bgColor="#1e9fff"></sun-tab>
- 		<view class="p10">使用icon</view>
- 		<sun-tab :value.sync="index" :tabList="tabIconList" rangeKey="name"></sun-tab>
- 		<view class="p10">对象赋值</view>
- 		<sun-tab :value.sync="index" @change="objectChange" :tabList="tabObjectList" rangeKey="name"></sun-tab>
- 		<view class="p10">横向滚动</view>
- 		<sun-tab :value.sync="tabScrollIndex" :tabList="tabScrollList" :scroll="true"></sun-tab>
- 		<view class="p10">搭配滑块使用</view>
- 		<sun-tab :value.sync="swiperIndex" :tabList="tabSwiperList"></sun-tab>
- 		<swiper :current="swiperIndex" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)" indicator-active-color="rgba(255,255,255,0)" @change="swiperChange">
- 			<swiper-item v-for="(swiper,index) in tabSwiperList" :key="index">
- 				<view style="margin: 20px;background-color: #FFFFFF;text-align: center;">{{swiper}}
-					<view class="input-row border">
-						<text class="title">姓 名：</text>
-						<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号">tinuxi</m-input>
-					</view>
-					<view class="input-row border">
-						<text class="title">手机号：</text>
-						<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号">19987183997</m-input>
-					</view>
-					<view class="uni-form-item uni-column">
-					    <view class="title">开工状态</view>
-						<view class="kong">
-							
-						</view>
-					    <view class="user-switch">
-					        <switch name="switch" />
-					    </view>
-					</view>
-				</view>
- 			</swiper-item>
- 		 </swiper>
-		 
- 	</view>
- </template>
- 
- <script>
- 	import sunTab from '@/components/sun-tab/sun-tab.vue';
- 	export default {
- 		components: {
- 			sunTab
- 		},
- 		data() {
- 			return {
- 				index: 0,
- 				swiperIndex:0,
- 				tabList: ['选项卡一','选项卡二','选项卡三'],
- 				tabColorList: ['选项卡一','选项卡二','选项卡三选项卡三项卡三'],
- 				tabIconList: [
- 					{
- 						name: '男',
- 						icon: 'iconnan',
- 					},
- 					{
- 						name: '女',
- 						icon: 'iconziyuan',
- 					},
- 					{
- 						name: '儿童',
- 						icon: 'icon10',
- 					}
- 				],
- 				tabObjectList: [
- 					{
- 						name: '选项卡一',
- 						value: 1
- 					},
- 					{
- 						name: '选项卡二',
- 						value: 2
- 					},
- 					{
- 						name: '选项卡三',
- 						value: 3
- 					}
- 				],
- 				tabScrollIndex: 0,
- 				tabScrollList: ['选项卡一','选项卡二选项卡二','选项卡三','选项卡四','选项卡五选项卡五选项卡五','选项卡六','选项卡七','选项卡八'],
- 				tabSwiperList: ['A','B','C'],
- 			}
- 		},
- 		onLoad() {
- 
- 		},
- 		methods: {
- 			arrayChange(e){
- 				console.log('数组数据返回格式');
- 				console.log(e);
- 			},
- 			objectChange(e){
- 				console.log('对象数据返回格式');
- 				console.log(e);
- 			},
- 			swiperChange(e){
- 				this.swiperIndex = e.target.current;
- 			}
- 		}
- 	}
- </script>
- <style lang="scss">
- 	uni-page-body{
- 		background-color: #f4f4f4;
- 	}
- 	.p10{
- 		padding: 10px;
- 		font-size: 16px;
- 	}
- </style>
- <style lang="less" scoped>
- 
- .content {
- 	background: #FFFFFF;
- }
- 
- .user-head {
- 	display: flex;
- 	border-radius: 12upx;
- 	// border: 1upx solid #8F8F94;
- 	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
- }
- 	
- uni-form {
- 	width: 98%;
- }
- .input-row {
- 	height: 100upx;
- 	line-height: 100upx;
- 	.title {
- 		color: #8F8F94;
- 	}
- }
- .uni-column {
- 	display: flex;
- 	height: 100upx;
- 	line-height: 100upx;
- 	justify-content: space-between;
- 	.title {
- 		width: 30%;
- 		padding-left: 25upx;
- 	}	
- 	.kong {
- 		width: 55%;
- 	}
- 	.user-switch {
- 		width: 15%;
- 	}
- }
- 
- 	
- .tab-card {
- 	// border: 1px  #8F8F94 solid;	
- 	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
- 	border-radius: 12upx;
- 	margin-top: 60upx;
- 	.tab-word {
- 		height: 830upx;
- 		// border-left: 1px  #8F8F94 solid;
- 		// border-right: 1px  #8F8F94 solid;
- 		// border-bottom: 1px  #8F8F94 solid;
- 	}
- }
- .special-img {
- 	width: 500upx;
- 	height: 600upx;
- }
- .money p {
- 	margin: 30upx 0;
- }	
- .primary {
- 	width: 90%;
- 	height: 90upx;
- 	line-height: 90upx;
- 	margin: 60upx auto;
- }
- .del {
- 	border: 1px solid #ff6666 ;
- 	color: #ff6666;
- }
- .off {
- 	border: 1px solid #C8C7CC;
- 	margin-right: 10upx;
- }
- uni-button:after {
- 	    border: none;
- 	}
- </style>
- -->

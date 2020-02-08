@@ -5,6 +5,7 @@
     "pages/main/main",
     "pages/login/login",
     "pages/reg/reg",
+    "pages/orderPage/orderPage",
     "pages/pwd/pwd",
     "pages/order/order",
     "pages/team/team",

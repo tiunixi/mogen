@@ -3,6 +3,7 @@
   "usingComponents": {
     "sun-tab": "/components/sun-tab/sun-tab",
     "m-input": "/components/m-input",
-    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar"
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "sunui-upimg": "/components/sunui-upimg/sunui-upimg"
   }
 }

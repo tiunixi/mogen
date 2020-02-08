@@ -33,6 +33,11 @@
 				"navigationBarTitleText": "注册"
 			}
 		}, {
+			"path": "pages/orderPage/orderPage",
+			"style": {
+				"navigationBarTitleText": "订单信息"
+			}
+		}, {
 			"path": "pages/pwd/pwd",
 			"style": {
 				"navigationBarTitleText": "找回密码"
