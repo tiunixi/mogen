@@ -198,8 +198,21 @@
 						 if (e.statusCode === 200) {
 							if (e.data.code === 200) {
 								var myData = e.data.data
-							
-								// console.log(this.menus)
+								this.order = myData.order_list.map((item) => {
+									return {
+										id: item.id,
+										back_status: item.back_status,
+										order_status: item.order_status,
+										order_num: item.order_num,
+										collection_code_id: item.collection_code_id, //人工
+										create_time: item.create_time, //安全敏
+										merchants_order_num: item.merchants_order_num, //政治敏
+										collection_user_price: item.collection_user_price, //机器人对话轮数
+										pay_type: item.pay_type, 
+										img: item.img, 
+										order_status_num:  item.order_status_num
+									};
+								});
 							}
 						 }
 					},  

@@ -349,7 +349,7 @@ var _default = { components: { uniPagination: uniPagination, uniList: uniList, u
       this.total = 0;
       this.current = 1;
     },
-    change: function change(e) {
+    change: function change(e) {var _this2 = this;
       console.log(e);
       console.log(e.current);
       this.current = e.current;
@@ -378,8 +378,21 @@ var _default = { components: { uniPagination: uniPagination, uniList: uniList, u
             if (e.statusCode === 200) {
               if (e.data.code === 200) {
                 var myData = e.data.data;
+                _this2.order = myData.order_list.map(function (item) {
+                  return {
+                    id: item.id,
+                    back_status: item.back_status,
+                    order_status: item.order_status,
+                    order_num: item.order_num,
+                    collection_code_id: item.collection_code_id, //人工
+                    create_time: item.create_time, //安全敏
+                    merchants_order_num: item.merchants_order_num, //政治敏
+                    collection_user_price: item.collection_user_price, //机器人对话轮数
+                    pay_type: item.pay_type,
+                    img: item.img,
+                    order_status_num: item.order_status_num };
 
-                // console.log(this.menus)
+                });
               }
             }
           } });

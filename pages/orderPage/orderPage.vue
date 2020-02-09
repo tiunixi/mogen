@@ -133,14 +133,22 @@
 				uniRequest.post(BASE_URL + "api/v1/Index/changeOrderStatus", newData)
 					.then(function(response) {
 						if (response.status === 200) {
-							console.log(response);
-							uni.showToast({
-								icon: 'none',
-								title: '修改成功',
-							});;
-							uni.reLaunch({
-								url: '../order/order',
-							});
+							if (response.data.code === 200) {
+								console.log(response);
+								uni.showToast({
+									icon: 'none',
+									title: '修改成功',
+								});;
+								uni.reLaunch({
+									url: '../order/order',
+								});
+								
+							}else{
+								uni.showToast({
+									icon: 'none',
+									title: '修改失败，稍后再试',
+								});;
+							}
 						}
 						else {
 							// uni.showToast({

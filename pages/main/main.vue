@@ -1,7 +1,6 @@
  <template>
  	<view class="content">
  		<view class="main-head">
-			<form @submit="formSubmit" @reset="formReset">
 				<view class="all-money border">
 					<view class="title">{{menus.all_income}}</view>
 					<view class="kong">
@@ -27,7 +26,6 @@
 						当前额度：{{menus.limit}}
 					</view>
 				</view>
- 			</form>
  		</view>
 		<view class="main-acrd" >
 			<view class="col col-one-border">
@@ -100,6 +98,36 @@
 				});
 			}
 		},
+		// onShow() {
+		// 	let This = this;
+		// 	uni.request({
+		// 		url: 'http://www.luominus.com/api/v1/Index/indexData?token=\/0NhrHh4EhdCBZrUUoLEnw==',
+		// 		method:"GET",
+		// 		success: (e) =>{
+		// 			console.log(e)
+		// 			var myData = e.data.data
+		// 			this.menus = {
+		// 				all_income: myData.all_income,
+		// 				status: myData.status,
+		// 				limit: myData.limit,
+		// 				today_order_num: myData.today_order_num,
+		// 				today_success_order_num: myData.today_success_order_num,
+		// 				today_price: myData.today_price,
+		// 				today_success_price: myData.today_success_price,
+		// 				today_income: myData.today_income,
+		// 				todo_price: myData.todo_price,
+		// 			}
+		// 			console.log(this.menus)
+		// 		},
+		// 		fail() {
+		// 			console.log("失败");
+		// 		},
+		// 		complete(e) {
+					
+		// 		}
+		// 	})
+			
+		// },
 	 	onLoad() {
 			this.tryAPP=[1,2,3]
 	 		if (!this.hasLogin) {
@@ -147,57 +175,14 @@
 							 }
 						},  
 					})
-					// uniRequest.get(BASE_URL + "api/v1/Index/indexData",newData)
-					// 	.then(function(e) {
-					// 		console.log(e);
-					// 		if (e.status === 200) {
-					// 			console.log(e);
-					// 			if (e.data.code === 200) {
-					// 				var myData = e.data.data
-					// 				this.menus = {
-					// 					all_income: myData.all_income,
-					// 					status: myData.status,
-					// 					limit: myData.limit,
-					// 					today_order_num: myData.today_order_num,
-					// 					today_success_order_num: myData.today_success_order_num,
-					// 					today_price: myData.today_price,
-					// 					today_success_price: myData.today_success_price,
-					// 					today_income: myData.today_income,
-					// 					todo_price: myData.todo_price,
-					// 				}
-					// 				console.log(this.menus)
-					// 			}
-					// 			uni.showToast({
-					// 				icon: 'none',
-					// 				title: '登陆成功',
-					// 			});
-					// 			// that.toMain(data.account);
-					// 			uni.reLaunch({
-					// 				url: '../main/main',
-					// 			});
-					// 		}
-					// 		else {
-					// 			uni.showToast({
-					// 				icon: 'none',
-					// 				title: '用户账号或密码不正确',
-					// 			});
-					// 		}
-					// 	}).catch(function(error) {
-					// 		console.log(error);
-					// 	});
+					
 				} else {
 					uni.showModal({
 						title: '未登录',
 						content: '您未登录，需要登录后才能继续',
-						/**
-						 * 如果需要强制登录，不显示取消按钮
-						 */
 						showCancel: !this.forcedLogin,
 						success: (res) => {
 							if (res.confirm) {
-								/**
-								 * 如果需要强制登录，使用reLaunch方式
-								 */
 								if (this.forcedLogin) {
 									uni.reLaunch({
 										url: '../login/login'
@@ -244,7 +229,7 @@
 		}
 	}
  	.main-head {
- 		display: flex;
+ 		// display: flex;
  		border-radius: 12upx;
  		// border: 1upx solid #8F8F94;
 		box-shadow: 0px 0px 10px rgba(0,0,0,0.2);

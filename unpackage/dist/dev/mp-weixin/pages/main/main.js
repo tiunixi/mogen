@@ -208,8 +208,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -279,10 +277,40 @@ var _uniRequest = _interopRequireDefault(__webpack_require__(/*! uni-request */ 
 //
 //
 //
-//
-//
-var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};var BASE_URL = 'http://www.luominus.com/';var _default = { computed: (0, _vuex.mapState)(['forcedLogin', 'hasLogin', 'userName', 'avatarUrl']), components: { mInput: mInput }, data: function data() {return { tryAPP: [], menus: { all_income: 0, status: 1, limit: 0, today_order_num: 0, today_success_order_num: 0, today_price: 0, today_success_price: 0, today_income: 0, todo_price: 0 } };}, methods: { myTeam: function myTeam() {console.log(1);uni.navigateTo({ url: '../team/team' });} }, onLoad: function onLoad() {var _this = this;this.tryAPP = [1, 2, 3];if (!this.hasLogin) {uni.showLoading({ title: '加载中' });this.$forceUpdate();setTimeout(function () {uni.hideLoading();}, 2000);var validUser = _service.default.getUsers();if (validUser.length !== 0) {// 存在缓存数据getUsers（）对象
-        console.log(validUser[0].token);var newData = { token: validUser[0].token };uni.request({ url: BASE_URL + "api/v1/Index/indexData", data: newData, method: 'GET', dataType: 'json', header: { 'content-type': 'application/json' }, success: function success(e) {console.log(e);if (e.statusCode === 200) {if (e.data.code === 200) {var myData = e.data.data;_this.menus = { all_income: myData.all_income, status: myData.status, limit: myData.limit, today_order_num: myData.today_order_num, today_success_order_num: myData.today_success_order_num,
+var mInput = function mInput() {return __webpack_require__.e(/*! import() | components/m-input */ "components/m-input").then(__webpack_require__.bind(null, /*! ../../components/m-input.vue */ 61));};var BASE_URL = 'http://www.luominus.com/';var _default = { computed: (0, _vuex.mapState)(['forcedLogin', 'hasLogin', 'userName', 'avatarUrl']), components: { mInput: mInput }, data: function data() {return { tryAPP: [], menus: { all_income: 0, status: 1, limit: 0, today_order_num: 0, today_success_order_num: 0, today_price: 0, today_success_price: 0, today_income: 0, todo_price: 0 } };}, methods: { myTeam: function myTeam() {console.log(1);uni.navigateTo({ url: '../team/team' });} }, // onShow() {
+  // 	let This = this;
+  // 	uni.request({
+  // 		url: 'http://www.luominus.com/api/v1/Index/indexData?token=\/0NhrHh4EhdCBZrUUoLEnw==',
+  // 		method:"GET",
+  // 		success: (e) =>{
+  // 			console.log(e)
+  // 			var myData = e.data.data
+  // 			this.menus = {
+  // 				all_income: myData.all_income,
+  // 				status: myData.status,
+  // 				limit: myData.limit,
+  // 				today_order_num: myData.today_order_num,
+  // 				today_success_order_num: myData.today_success_order_num,
+  // 				today_price: myData.today_price,
+  // 				today_success_price: myData.today_success_price,
+  // 				today_income: myData.today_income,
+  // 				todo_price: myData.todo_price,
+  // 			}
+  // 			console.log(this.menus)
+  // 		},
+  // 		fail() {
+  // 			console.log("失败");
+  // 		},
+  // 		complete(e) {
+  // 		}
+  // 	})
+  // },
+  onLoad: function onLoad() {var _this = this;this.tryAPP = [1, 2, 3];if (!this.hasLogin) {uni.showLoading({ title: '加载中' });this.$forceUpdate();setTimeout(function () {uni.hideLoading();}, 2000);var validUser = _service.default.getUsers();if (validUser.length !== 0) {// 存在缓存数据getUsers（）对象
+        console.log(validUser[0].token);var newData = { token: validUser[0].token };uni.request({ url: BASE_URL + "api/v1/Index/indexData", data: newData, method: 'GET', dataType: 'json', header: { 'content-type': 'application/json' }, success: function success(e) {console.log(e);if (e.statusCode === 200) {if (e.data.code === 200) {var myData = e.data.data;_this.menus = { all_income: myData.all_income,
+                  status: myData.status,
+                  limit: myData.limit,
+                  today_order_num: myData.today_order_num,
+                  today_success_order_num: myData.today_success_order_num,
                   today_price: myData.today_price,
                   today_success_price: myData.today_success_price,
                   today_income: myData.today_income,
@@ -293,57 +321,14 @@ var mInput = function mInput() {return __webpack_require__.e(/*! import() | comp
             }
           } });
 
-        // uniRequest.get(BASE_URL + "api/v1/Index/indexData",newData)
-        // 	.then(function(e) {
-        // 		console.log(e);
-        // 		if (e.status === 200) {
-        // 			console.log(e);
-        // 			if (e.data.code === 200) {
-        // 				var myData = e.data.data
-        // 				this.menus = {
-        // 					all_income: myData.all_income,
-        // 					status: myData.status,
-        // 					limit: myData.limit,
-        // 					today_order_num: myData.today_order_num,
-        // 					today_success_order_num: myData.today_success_order_num,
-        // 					today_price: myData.today_price,
-        // 					today_success_price: myData.today_success_price,
-        // 					today_income: myData.today_income,
-        // 					todo_price: myData.todo_price,
-        // 				}
-        // 				console.log(this.menus)
-        // 			}
-        // 			uni.showToast({
-        // 				icon: 'none',
-        // 				title: '登陆成功',
-        // 			});
-        // 			// that.toMain(data.account);
-        // 			uni.reLaunch({
-        // 				url: '../main/main',
-        // 			});
-        // 		}
-        // 		else {
-        // 			uni.showToast({
-        // 				icon: 'none',
-        // 				title: '用户账号或密码不正确',
-        // 			});
-        // 		}
-        // 	}).catch(function(error) {
-        // 		console.log(error);
-        // 	});
+
       } else {
         uni.showModal({
           title: '未登录',
           content: '您未登录，需要登录后才能继续',
-          /**
-                                      * 如果需要强制登录，不显示取消按钮
-                                      */
           showCancel: !this.forcedLogin,
           success: function success(res) {
             if (res.confirm) {
-              /**
-                               * 如果需要强制登录，使用reLaunch方式
-                               */
               if (_this.forcedLogin) {
                 uni.reLaunch({
                   url: '../login/login' });

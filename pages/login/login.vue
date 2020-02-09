@@ -88,41 +88,41 @@
 				this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
 			},
 			bindLogin() {
-				// if (this.password.length ===0 &&this.account.length===0) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		title: '请输入后再登录'
-				// 	});
-				// 	return;
-				// }
+				if (this.password.length ===0 &&this.account.length===0) {
+					uni.showToast({
+						icon: 'none',
+						title: '请输入后再登录'
+					});
+					return;
+				}
 				/**
 				 * 客户端对账号信息进行一些必要的校验。
 				 * 实际开发中，根据业务需要进行处理，这里仅做示例。
 				 */
-				// if (this.account.length < 5) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		title: '账号最短为 5 个字符'
-				// 	});
-				// 	return;
-				// }
-				// if (this.password.length < 6) {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		title: '密码最短为 6 个字符'
-				// 	});
-				// 	return;
-				// }
+				if (this.account.length < 5) {
+					uni.showToast({
+						icon: 'none',
+						title: '账号最短为 5 个字符'
+					});
+					return;
+				}
+				if (this.password.length < 6) {
+					uni.showToast({
+						icon: 'none',
+						title: '密码最短为 6 个字符'
+					});
+					return;
+				}
 				/**
 				 * 下面简单模拟下服务端的处理
 				 * 检测用户账号密码是否在已注册的用户列表中
 				 * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
 				 */
 				const data = {
-					// account: this.account,
-					// pwd: this.password
-					account:17766666669,
-					pwd: 1
+					account: this.account,
+					pwd: this.password
+					// account:17766666669,
+					// pwd: 1
 				};
 				let validUser = service.getUsers();
 		
@@ -138,28 +138,35 @@
 					uniRequest.post(BASE_URL + "api/v1/User/login", data)
 						.then(function(response) {
 							if (response.status === 200) {
-								console.log(response);
-								// 登录成功后存入缓存数据addUser 
-								const newData = {
-									account: data.account,
-									pwd: data.pwd,
-									token: response.data.data.token
-								}
-								service.addUser(newData)
+								if (response.data.code === 200){
+									console.log(response);
+									// 登录成功后存入缓存数据addUser 
+									const newData = {
+										account: data.account,
+										pwd: data.pwd,
+										token: response.data.data.token
+									}
+									service.addUser(newData)
+									uni.showToast({
+										icon: 'none',
+										title: '登陆成功',
+									});
+									// that.toMain(data.account);
+									uni.reLaunch({
+										url: '../main/main',
+									});
+								}else {
 								uni.showToast({
 									icon: 'none',
-									title: '登陆成功',
-								});
-								// that.toMain(data.account);
-								uni.reLaunch({
-									url: '../main/main',
+									title: '用户账号或密码不正确',
 								});
 							}
+							}
 							else {
-								// uni.showToast({
-								// 	icon: 'none',
-								// 	title: '用户账号或密码不正确',
-								// });
+								uni.showToast({
+									icon: 'none',
+									title: '用户账号或密码不正确',
+								});
 							}
 						}).catch(function(error) {
 							console.log(error);

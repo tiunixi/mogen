@@ -1,7 +1,6 @@
 <template>
 	<view class="content">
 		<view class="user-head">
-			 <!-- <form @submit="formSubmit" @reset="formReset"> -->
 			    <view class="input-row border">
 			    	<text class="title">姓 名：{{menus.user_name}}</text>
 			    	<!-- <m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号">tinuxi</m-input> -->
@@ -19,7 +18,6 @@
 						<switch name="switch" :checked="treatmentStatu.checked" @change="switchChange"/>
 				    </view>
 				</view>
-			<!-- </form> -->
 		</view>
 		<view class="tab-card">
 			<sun-tab :value.sync="swiperIndex" :tabList="tabSwiperList"></sun-tab>
@@ -429,7 +427,10 @@
 					.then(function(response) {
 						if (response.status === 200) {
 							console.log(response);
-							
+							if (response.data.code === 200) {
+								console.log('cg');
+								
+							}
 						}
 						else {
 							uni.showToast({

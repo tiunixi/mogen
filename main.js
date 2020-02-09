@@ -11,10 +11,10 @@ Vue.prototype.$store = store
 // var http = my.http;
  
 // Vue.prototype.$http = http
-import http from './http.js'
+// import http from './http.js'
 
  
-Vue.prototype.$http = http
+// Vue.prototype.$http = http
 
 App.mpType = 'app'
 

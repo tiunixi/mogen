@@ -255,8 +255,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -616,7 +614,10 @@ e) {
     then(function (response) {
       if (response.status === 200) {
         console.log(response);
+        if (response.data.code === 200) {
+          console.log('cg');
 
+        }
       } else
       {
         uni.showToast({

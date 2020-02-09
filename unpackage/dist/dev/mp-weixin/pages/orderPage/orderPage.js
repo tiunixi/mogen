@@ -272,10 +272,18 @@ var BASE_URL = 'http://www.luominus.com/';var _default = { components: {}, data:
       collection_user_price: item.collection_user_price, //机器人对话轮数
       pay_type: item.pay_type, //机器人对话轮数
       img: item.img //机器人对话轮数
-    };}, methods: { bindPickerChange: function bindPickerChange(e) {console.log(e);console.log('picker发送选择改变，携带值为：' + e.target.value);this.index = e.target.value + 1;var validUser = _service.default.getUsers();var newData = { token: validUser[0].token, order_id: this.order.id, code_id: this.order.collection_code_id, order_status: this.index };_uniRequest.default.post(BASE_URL + "api/v1/Index/changeOrderStatus", newData).then(function (response) {if (response.status === 200) {console.log(response);uni.showToast({ icon: 'none', title: '修改成功' });;
-          uni.reLaunch({
-            url: '../order/order' });
+    };}, methods: { bindPickerChange: function bindPickerChange(e) {console.log(e);console.log('picker发送选择改变，携带值为：' + e.target.value);this.index = e.target.value + 1;var validUser = _service.default.getUsers();var newData = { token: validUser[0].token, order_id: this.order.id, code_id: this.order.collection_code_id, order_status: this.index };_uniRequest.default.post(BASE_URL + "api/v1/Index/changeOrderStatus", newData).then(function (response) {if (response.status === 200) {if (response.data.code === 200) {console.log(response);uni.showToast({ icon: 'none', title: '修改成功' });
+            ;
+            uni.reLaunch({
+              url: '../order/order' });
 
+
+          } else {
+            uni.showToast({
+              icon: 'none',
+              title: '修改失败，稍后再试' });
+            ;
+          }
         } else
         {
           // uni.showToast({

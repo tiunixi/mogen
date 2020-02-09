@@ -1,7 +1,6 @@
  <template>
  	<view class="content">
  		<view class="team-head">
-			<form @submit="formSubmit" @reset="formReset">
  				<view class="uni-form-item uni-column">
  				    <view class="title">团队名称: {{menus.group_name}}</view>
  				    <view class="user-switch">邀请码：{{menus.referrer_code}}
@@ -15,7 +14,6 @@
 					<view class="user-switch"> >
 					</view>
 				</view> -->
- 			</form>
  		</view>
 		<view class="team-card">
 			<view class="col col-one-border">

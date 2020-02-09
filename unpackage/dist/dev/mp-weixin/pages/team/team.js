@@ -433,8 +433,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -498,11 +496,11 @@ var _uniRequest = _interopRequireDefault(__webpack_require__(/*! uni-request */ 
 //
 //
 //
-//
-//
 var BASE_URL = 'http://www.luominus.com/';var _default = { computed: (0, _vuex.mapState)(['forcedLogin', 'hasLogin', 'userName', 'avatarUrl']), components: {// sunTab
   }, data: function data() {return { menus: { "group_name": " ", "referrer_code": " ", "all": 0, "my_all": 0, "today_price": 0, "today_income": 0, "week_price": 0, "week_income": 0, "last_week_price": 0, "last_week_income": 0 } };}, onLoad: function onLoad() {var _this = this;if (!this.hasLogin) {uni.showLoading({ title: '加载中' });var validUser = _service.default.getUsers();if (validUser.length !== 0) {// 存在缓存数据getUsers（）对象
-        console.log(validUser[0].token);var newData = { token: validUser[0].token };setTimeout(function () {uni.hideLoading();}, 2000);uni.request({ url: BASE_URL + "api/v1/Index/groupData", data: newData, method: 'GET', dataType: 'json', header: { 'content-type': 'application/json' }, success: function success(e) {console.log(e);if (e.statusCode === 200) {if (e.data.code === 200) {var myData = e.data.data;_this.menus = { "group_name": myData.group_name, "referrer_code": myData.referrer_code, "all": myData.all, "my_all": myData.my_all, "today_price": myData.today_price, "today_income": myData.today_income, "week_price": myData.week_price, "week_income": myData.week_income, "last_week_price": myData.last_week_price, "last_week_income": myData.last_week_income };
+        console.log(validUser[0].token);var newData = { token: validUser[0].token };setTimeout(function () {uni.hideLoading();}, 2000);uni.request({ url: BASE_URL + "api/v1/Index/groupData", data: newData, method: 'GET', dataType: 'json', header: { 'content-type': 'application/json' }, success: function success(e) {console.log(e);if (e.statusCode === 200) {if (e.data.code === 200) {var myData = e.data.data;_this.menus = { "group_name": myData.group_name, "referrer_code": myData.referrer_code, "all": myData.all, "my_all": myData.my_all, "today_price": myData.today_price, "today_income": myData.today_income, "week_price": myData.week_price, "week_income": myData.week_income,
+                  "last_week_price": myData.last_week_price,
+                  "last_week_income": myData.last_week_income };
 
                 console.log(_this.menus);
               }
