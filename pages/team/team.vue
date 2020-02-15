@@ -6,14 +6,14 @@
  				    <view class="user-switch">邀请码：{{menus.referrer_code}}
  				    </view>
  				</view>
-				<!-- <view class="team-name">
+				<view class="team-name" @click="toMember()">
 					<view class="title">我的团队列表</view>
 					<view class="kong">
 						
 					</view>
 					<view class="user-switch"> >
 					</view>
-				</view> -->
+				</view>
  		</view>
 		<view class="team-card">
 			<view class="col col-one-border">
@@ -161,12 +161,13 @@
  			}
  		,
  		methods: {
-			myTeam() {
+			toMember() {
 				console.log(1)
 				uni.navigateTo({
-					url: '../team/team',
+					url: '../member/member',
 				});
 			}
+			
  		}
  	}
  </script>
@@ -176,7 +177,7 @@
  	}
 	
 	.team-head {
- 		display: flex;
+ 		// display: flex;
  		border-radius: 12upx;
  		// border: 1upx solid #8F8F94;
 		box-shadow: 0px 0px 10px rgba(0,0,0,0.2);

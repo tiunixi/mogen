@@ -57,7 +57,8 @@
 				</view>
 			</view>
 		</view>
-		<button  type="primary" class="primary" @tap="myTeam()" >管理我的团队</button>
+		<button type="primary" class="primary" @tap="myTeam()" >管理我的团队</button>
+		<!-- <button v-if="menus.limit === 2" type="primary" class="primary" @tap="myTeam()" >管理我的团队</button> -->
  	</view>
  </template>
  
@@ -163,6 +164,7 @@
 							 			all_income: myData.all_income,
 							 			status: myData.status,
 							 			limit: myData.limit,
+										level: myData.level,
 							 			today_order_num: myData.today_order_num,
 							 			today_success_order_num: myData.today_success_order_num,
 							 			today_price: myData.today_price,

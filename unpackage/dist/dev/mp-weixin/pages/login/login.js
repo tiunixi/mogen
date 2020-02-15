@@ -241,18 +241,18 @@ var BASE_URL = 'http://www.luominus.com/';var _default =
 
         return;
       }
-      if (this.password.length < 6) {
-        uni.showToast({
-          icon: 'none',
-          title: '密码最短为 6 个字符' });
-
-        return;
-      }
+      // if (this.password.length < 6) {
+      // 	uni.showToast({
+      // 		icon: 'none',
+      // 		title: '密码最短为 6 个字符'
+      // 	});
+      // 	return;
+      // }
       /**
-         * 下面简单模拟下服务端的处理
-         * 检测用户账号密码是否在已注册的用户列表中
-         * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
-         */
+       * 下面简单模拟下服务端的处理
+       * 检测用户账号密码是否在已注册的用户列表中
+       * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
+       */
       var data = {
         account: this.account,
         pwd: this.password

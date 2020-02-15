@@ -34,7 +34,7 @@ page,
 	margin: 0 auto;
 }
 .swiper-item-img image{
-	width: 80%;
+	width: 40%;
 }
 .uniapp-img{
 	height: 20%;
@@ -49,6 +49,7 @@ page,
 	-webkit-align-items:center;
 	        align-items:center;
 	overflow: hidden;
+	font-size: 40rpx;
 }
 .uniapp-img image{
 	width: 40%;

@@ -5,34 +5,35 @@
 		:duration="duration">
 			<swiper-item>
 				<view class="swiper-item">
-					<view class="swiper-item-img"><image src="../../static/guide/title_01.png" mode="aspectFit"></image></view>
-					<view class="swiper-item-img"><image src="../../static/guide/icon_01.png" mode="aspectFit"></image></view>
+					<view class="swiper-item-img"><image src="../../static/guide/ic.png" mode="aspectFit"></image></view>
+					<!-- <view class="swiper-item-img">理财能手</view> -->
 				</view>
 				<view class="jump-over" @tap="launchFlag()">{{jumpover}}</view>
 			</swiper-item>
 			<swiper-item>
 				<view class="swiper-item">
-					<view class="swiper-item-img"><image src="../../static/guide/title_02.png" mode="aspectFit"></image></view>
-					<view class="swiper-item-img"><image src="../../static/guide/icon_02.png" mode="aspectFit"></image></view>
+					<view class="swiper-item-img"><image src="../../static/guide/ic.png" mode="aspectFit"></image></view>
+					<!-- <view class="swiper-item-img"><image src="../../static/guide/icon_02.png" mode="aspectFit"></image></view> -->
 				</view>
 				<view class="jump-over" @tap="launchFlag()">{{jumpover}}</view>
 			</swiper-item>
 			<swiper-item>
 				<view class="swiper-item">
-					<view class="swiper-item-img"><image src="../../static/guide/title_03.png" mode="aspectFit"></image></view>
-					<view class="swiper-item-img"><image src="../../static/guide/icon_03.png" mode="aspectFit"></image></view>
+					<view class="swiper-item-img"><image src="../../static/guide/ic.png" mode="aspectFit"></image></view>
+					<!-- <view class="swiper-item-img"><image src="../../static/guide/icon_03.png" mode="aspectFit"></image></view> -->
 				</view>
 				<view class="jump-over" @tap="launchFlag()">{{jumpover}}</view>
 			</swiper-item>
 			<swiper-item>
 				<view class="swiper-item">
-					<view class="swiper-item-img"><image src="../../static/guide/title_04.png" mode="aspectFit"></image></view>
-					<view class="swiper-item-img"><image src="../../static/guide/icon_04.png" mode="aspectFit"></image></view>
+					<view class="swiper-item-img"><image src="../../static/guide/ic.png" mode="aspectFit"></image></view>
+					<!-- <view class="swiper-item-img"><image src="../../static/guide/icon_04.png" mode="aspectFit"></image></view> -->
 				</view>
 				<view class="experience" @tap="launchFlag()">{{experience}}</view>
 			</swiper-item>
 		</swiper>
-		<view class="uniapp-img"><image src="../../static/guide/uniapp4@2x.png" mode="aspectFit"></image></view>
+		<!-- <view class="uniapp-img"><image src="../../static/guide/uniapp4@2x.png" mode="aspectFit"></image></view> -->
+		<view class="uniapp-img">摩根国际</view>
 	</view>
 </template>
 
@@ -91,9 +92,12 @@
 		width: 100%;
 		height: auto;
 		margin: 0 auto;
+		position: relative;
+		top: -72px;
+
 	}
 	.swiper-item-img image{
-		width: 80%;
+		width: 40%;
 	}
 	.uniapp-img{
 		height: 20%;
@@ -102,6 +106,7 @@
 		justify-content: center;
 		align-items:center;
 		overflow: hidden;
+		font-size: 40upx;
 	}
 	.uniapp-img image{
 		width: 40%;

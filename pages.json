@@ -33,6 +33,11 @@
 				"navigationBarTitleText": "注册"
 			}
 		}, {
+			"path": "pages/member/member",
+			"style": {
+				"navigationBarTitleText": "组员列表"
+			}
+		}, {
 			"path": "pages/orderPage/orderPage",
 			"style": {
 				"navigationBarTitleText": "订单信息"

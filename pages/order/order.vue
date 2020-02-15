@@ -17,8 +17,8 @@
 				</view>
  		</view>
 		<view class="order-money"  v-for="(item,index) in order" :key="index">
-			<view @tab="toNewPage(item)">
-			<navigator :url="'/pages/orderPage/orderPage?item='+ encodeURIComponent(JSON.stringify(item))">
+			<view>
+			<!-- <navigator :url="'/pages/orderPage/orderPage?item='+ encodeURIComponent(JSON.stringify(item))"> -->
 			<view class="money-head">
 				<view class="money-number">
 					<p class="number">订单编号：{{item.id}}</p>
@@ -26,6 +26,8 @@
 				</view>
 				<view class="money-prompt">
 					{{item.order_status}}
+					<button class="mini-btn off" type="default"  size="mini" @click="newStatus(index)">确定收款</button>
+					<button class="mini-btn off" type="default"  size="mini" @click="newPic(index)">上传凭证</button>
 				</view>
 			</view>
 			
@@ -35,13 +37,13 @@
 				</view>
 				<view class="oder-main-money">
 					交 易 金 额：
-					<span>{{item.collection_user_price}}</span>
+					<span>{{item.price}}</span>
 				</view>
 				<view class="status">
 					支 付 方 式：{{item.pay_type}}
 				</view>
 				<view class="">
-					待 返 金 额：{{item.order_num}}
+					待 返 金 额：{{item.collection_user_price}}
 				</view>
 				<view class="status">
 					返 款 状 态：{{item.back_status}}
@@ -49,13 +51,15 @@
 				<view class="status">
 					<span class="word">收  款  码：</span>
 					<image class="image" :src="item.img" mode=""></image>
+					<image class="image-two" v-show="item.certificate_img" :src="item.certificate_img" mode=""></image>
 				</view>
 			</view>
-			</navigator>
+			<!-- </navigator> -->
 			</view>
 		</view>
 		<view class="example-body">
 			<uni-pagination :current="current" :total="total" title="标题文字" :show-icon="true" @change="change" />
+			<button class="mini-btn off" type="default"  size="mini" @click="newOrder()">刷新</button>
 		</view>
 		
  	</view>
@@ -63,6 +67,7 @@
  
  <script>
 	 import service from '../../service.js';
+	 import uniRequest from 'uni-request';
 	 const BASE_URL = 'http://www.luominus.com/';
 	 import uniPagination from '@/components/uni-pagination/uni-pagination.vue'
 	 import uniList from '@/components/uni-list/uni-list.vue'
@@ -98,15 +103,16 @@
 				collection_user_price: 0,
 				pay_type: "",
 				img: "",
+				certificate_img: "",
 			}]
  		}
  	},
 	onLoad() {
 		let validUser = service.getUsers();
 			if (validUser.length !== 0) {
-				// uni.showLoading({
-				//     title: '加载中'
-				// });
+				uni.showLoading({
+				    title: '加载中'
+				});
 			const newData = {
 				token:validUser[0].token,
 				// token:'hy3fB7yKi8dWZtgCyrJYRA==',
@@ -136,6 +142,185 @@
 							this.order = myData.order_list.map((item) => {
 								return {
 									id: item.id,
+									price: item.price,
+									back_status: item.back_status,
+									order_status: item.order_status,
+									order_num: item.order_num,
+									collection_code_id: item.collection_code_id, //人工
+									create_time: item.create_time, //安全敏
+									merchants_order_num: item.merchants_order_num, //政治敏
+									collection_user_price: item.collection_user_price, //机器人对话轮数
+									pay_type: item.pay_type, 
+									img: item.img, 
+									certificate_img:item.certificate_img,
+									order_status_num:  item.order_status_num
+								};
+							});
+							console.log(	this.order)
+						}
+					 }
+				},  
+			})
+		}
+	},
+ 	methods: {
+		newPic(index) {
+			var that = this
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['compressed'],
+					sourceType: ['album'],
+					success: (res) => {
+						var imageSrc = res.tempFilePaths[0]
+						uni.uploadFile({
+							url: BASE_URL+ "api/v1/Index/uploadImg",
+							filePath: imageSrc,
+							fileType: 'image',
+							name: 'file',
+							success: (res) => {
+								console.log('上传图片第一个接口',res)
+								var res_data = JSON.parse(res.data);
+								if (res_data.code !== 200) {
+									uni.showToast({
+										title: '上传失败',
+										icon: 'none',
+										duration: 1000
+									})
+								}
+								that.imageSrc = res_data.url;
+								that.menus.zfb.img = imageSrc
+								let validUser = service.getUsers();
+								var upPicData = {
+									certificate: that.imageSrc ,
+									order_id: this.order[index].id,
+									token:validUser[0].token,
+								}
+								uniRequest.post(BASE_URL + "api/v1/index/addCertificate", upPicData)
+									.then(function(response) {
+										if (response.data.code === 200) {
+											uni.showToast({
+												title: '上传成功',
+												icon: 'success',
+												duration: 1000
+											})
+											that.newOrder()
+										} else {
+											uni.showToast({
+												icon: 'none',
+												title: '添加失败请重试',
+											});
+										}
+									}).catch(function(error) {
+										console.log(error);
+									});
+								
+							},
+							fail: (err) => {
+								uni.showModal({
+									content: err.errMsg,
+									showCancel: false
+								});
+							}
+						});
+					},
+					fail: (err) => {
+						console.log('chooseImage fail', err)
+						// #ifdef MP
+						uni.getSetting({
+							success: (res) => {
+								let authStatus = res.authSetting['scope.album'];
+								if (!authStatus) {
+									uni.showModal({
+										title: '授权失败',
+										content: 'Hello uni-app需要从您的相册获取图片，请在设置界面打开相关权限',
+										success: (res) => {
+											if (res.confirm) {
+												uni.openSetting()
+											}
+										}
+									})
+								}
+							}
+						})
+						// #endif
+					}
+				})
+		},
+		newStatus(index) {
+			uni.showToast({
+				icon: 'none',
+				title: '修改中',
+			});
+			var that = this;
+			let validUser = service.getUsers();
+			// console.log(this.order[index])
+			var newData = {
+				token:validUser[0].token,
+				order_id:this.order[index].id,
+				code_id:this.order[index].collection_code_id,
+				order_status: 2//确定收款
+				
+			}
+			console.log(newData)
+			uniRequest.post(BASE_URL + "api/v1/Index/changeOrderStatus", newData)
+				.then(function(response) {
+					if (response.status === 200) {
+						if (response.data.code === 200) {
+							console.log(response);
+							that.newOrder()
+							
+						}else{
+							uni.showToast({
+								icon: 'none',
+								title: '修改失败，稍后再试',
+							});;
+						}
+					}
+					else {
+						// uni.showToast({
+						// 	icon: 'none',
+						// 	title: '用户账号或密码不正确',
+						// });
+					}
+				}).catch(function(error) {
+					console.log(error);
+				});
+		},
+		newOrder() {
+			uni.showLoading({
+			    title: '刷新中'
+			});
+			let validUser = service.getUsers();
+			const newData = {
+				token:validUser[0].token,
+				// token:'hy3fB7yKi8dWZtgCyrJYRA==',
+				page: this.current,
+				limit:this.pageSize
+			}
+			
+			uni.request({
+				url:BASE_URL + "api/v1/Index/orderList",  
+				data: newData,  
+				method:'GET',  
+				dataType:'json',  
+				header:{  
+					'content-type':'application/json'  
+				},
+				success: (e) =>{  
+					console.log(e) 
+					 if (e.statusCode === 200) {
+						if (e.data.code === 200) {
+							var myData = e.data.data
+							this.add( e.data.data)
+							this.user = {
+								name:myData.bank_info.user_name,
+								bink:myData.bank_info.name,
+								num:myData.bank_info.card_id
+							}
+							this.order = myData.order_list.map((item) => {
+								return {
+									id: item.id,
+									price: item.price,
 									back_status: item.back_status,
 									order_status: item.order_status,
 									order_num: item.order_num,
@@ -148,18 +333,11 @@
 									order_status_num:  item.order_status_num
 								};
 							});
-							console.log(	this.order)
+							// console.log(	this.order)
 						}
 					 }
 				},  
 			})
-		}
-	},
- 	methods: {
-		toNewPage(item) {
-			// uni.navigateTo({
-			//     url: 'test?id=1&name=uniapp'
-			// });
 		},
 		add(n) {
 			console.log('add')
@@ -294,7 +472,7 @@
 		box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 		border-radius: 12upx;
 		margin-top: 60upx;
-		height: 620upx;
+		// height: 620upx;
 		.money-head {
 			display: flex;	
 			.money-number {
@@ -339,6 +517,12 @@
 				width: 140upx;
 				height: 200upx;
 				margin-left: 180upx;
+				margin-bottom: 40upx;
+			}
+			.image-two {
+				width: 140upx;
+				height: 200upx;
+				margin-left: 100upx;
 				margin-bottom: 40upx;
 			}
 		}
@@ -388,8 +572,10 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		padding: 0;
+		margin-top:30upx;
 		font-size: 14px;
 		background-color: #ffffff;
+		text-align: center;
 	}
 
 	/* #endif */
@@ -419,6 +605,7 @@
 		flex-direction: column;
 		padding: 15px;
 		background-color: #ffffff;
+		text-align: center;
 	}
 
 	.word-btn-white {
@@ -447,6 +634,7 @@
 	.example-body {
 		/* #ifndef APP-NVUE */
 		display: block;
+		text-align: center;
 		/* #endif */
 	}
 

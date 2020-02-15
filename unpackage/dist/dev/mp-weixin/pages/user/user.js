@@ -488,44 +488,43 @@ e) {
       sourceType: ['album'],
       success: function success(res) {
         console.log('chooseImage success, temp path is', res.tempFilePaths[0]);
-        var imageSrc = res.tempFilePaths[0];
-
+        var imageSrcMy = res.tempFilePaths[0];
         uni.uploadFile({
           url: BASE_URL + "api/v1/Index/uploadImg",
-          filePath: imageSrc,
+          filePath: imageSrcMy,
           fileType: 'image',
           name: 'file',
           success: function success(res) {
             console.log('uploadImage success, res is:', res);
             that.imageSrc = true;
-            that.menus.wx.img = imageSrc;
+            that.menus.wx.img = imageSrcMy;
             var validUser = _service.default.getUsers();
             var upPicData = {
-              code: that.imageSrc,
+              code: that.menus.wx.img,
               type: 2,
               token: validUser[0].token };
 
             console.log(upPicData);
-            _uniRequest.default.post(BASE_URL + "api/v1/User/addCode", upPicData).
-            then(function (response) {
-              console.log(response);
-              if (response.status === 200) {
+            // uniRequest.post(BASE_URL + "api/v1/User/addCode", upPicData)
+            // 	.then(function(response) {
+            // 		console.log(response);
+            // 		if (response.status === 200) {
 
-                uni.showToast({
-                  title: '上传成功',
-                  icon: 'success',
-                  duration: 1000 });
-
-              } else
-              {
-                // uni.showToast({
-                // 	icon: 'none',
-                // 	title: '用户账号或密码不正确',
-                // });
-              }
-            }).catch(function (error) {
-              console.log(error);
-            });
+            // 			uni.showToast({
+            // 				title: '上传成功',
+            // 				icon: 'success',
+            // 				duration: 1000
+            // 			})
+            // 		}
+            // 		else {
+            // 			// uni.showToast({
+            // 			// 	icon: 'none',
+            // 			// 	title: '用户账号或密码不正确',
+            // 			// });
+            // 		}
+            // 	}).catch(function(error) {
+            // 		console.log(error);
+            // 	});
 
           },
           fail: function fail(err) {

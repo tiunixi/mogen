@@ -28,7 +28,7 @@
 								<!-- wx -->
 								<view class="demo">
 									<block v-if="imageSrc && img(menus.wx.img)">
-										<image :src="menus.wx.img" class="image" mode="widthFix"></image>
+										<image :src="menus.wx.img" class="images" ></image>
 										<view class="money">
 											<p>已收款{{menus.wx.count}}笔，{{menus.wx.price}}元</p>
 											<button class="mini-btn off" type="default"  size="mini" @click="chooseImageWX(index)">重新上传</button>
@@ -46,7 +46,7 @@
 							<view class="uni-padding-wrap uni-common-mt">
 								<view class="demo">
 									<block v-if="imageSrc && img(menus.zfb.img)">
-										<image :src="menus.zfb.img" class="image" mode="widthFix"></image>
+										<image :src="menus.zfb.img" class="images" ></image>
 										<view class="money">
 											<p>已收款{{menus.zfb.count}}笔，{{menus.zfb.price}}元</p>
 											<button class="mini-btn off" type="default"  size="mini" @click="chooseImageZFB(index)">重新上传</button>
@@ -220,17 +220,22 @@
 						sizeType: ['compressed'],
 						sourceType: ['album'],
 						success: (res) => {
-							console.log('chooseImage success, temp path is', res.tempFilePaths[0])
 							var imageSrc = res.tempFilePaths[0]
-							
 							uni.uploadFile({
 								url: BASE_URL+ "api/v1/Index/uploadImg",
 								filePath: imageSrc,
 								fileType: 'image',
 								name: 'file',
 								success: (res) => {
-									console.log('uploadImage success, res is:', res)
-									that.imageSrc = true
+									var res_data = JSON.parse(res.data);
+									if (res_data.code !== 200) {
+										uni.showToast({
+											title: '上传失败',
+											icon: 'none',
+											duration: 1000
+										})
+									}
+									that.imageSrc = res_data.url;
 									that.menus.zfb.img = imageSrc
 									let validUser = service.getUsers();
 									var upPicData = {
@@ -238,22 +243,19 @@
 										type: 1,
 										token:validUser[0].token,
 									}
-									console.log(upPicData)
 									uniRequest.post(BASE_URL + "api/v1/User/addCode", upPicData)
 										.then(function(response) {
-											console.log(response);
-											if (response.status === 200) {
+											if (response.data.code === 200) {
 												uni.showToast({
 													title: '上传成功',
 													icon: 'success',
 													duration: 1000
 												})
-											}
-											else {
-												// uni.showToast({
-												// 	icon: 'none',
-												// 	title: '用户账号或密码不正确',
-												// });
+											} else {
+												uni.showToast({
+													icon: 'none',
+													title: '添加失败请重试',
+												});
 											}
 										}).catch(function(error) {
 											console.log(error);
@@ -261,7 +263,6 @@
 									
 								},
 								fail: (err) => {
-									console.log('uploadImage fail', err);
 									uni.showModal({
 										content: err.errMsg,
 										showCancel: false
@@ -301,45 +302,47 @@
 						sourceType: ['album'],
 						success: (res) => {
 							console.log('chooseImage success, temp path is', res.tempFilePaths[0])
-							var imageSrc = res.tempFilePaths[0]
-							
+							var imageSrcMy = res.tempFilePaths[0]
 							uni.uploadFile({
 								url: BASE_URL+ "api/v1/Index/uploadImg",
-								filePath: imageSrc,
+								filePath: imageSrcMy,
 								fileType: 'image',
 								name: 'file',
 								success: (res) => {
 									console.log('uploadImage success, res is:', res)
-									that.imageSrc = true
-									that.menus.wx.img = imageSrc
+									var res_data = JSON.parse(res.data);
+									if (res_data.code !== 200) {
+										uni.showToast({
+											title: '上传失败',
+											icon: 'none',
+											duration: 1000
+										})
+									}
+									that.imageSrc = res_data.url;
+									that.menus.wx.img = imageSrcMy
 									let validUser = service.getUsers();
 									var upPicData = {
 										code: that.imageSrc ,
 										type: 2,
 										token:validUser[0].token,
 									}
-									console.log(upPicData)
 									uniRequest.post(BASE_URL + "api/v1/User/addCode", upPicData)
 										.then(function(response) {
-											console.log(response);
-											if (response.status === 200) {
-												
+											if (response.data.code === 200) {
 												uni.showToast({
 													title: '上传成功',
 													icon: 'success',
 													duration: 1000
 												})
-											}
-											else {
-												// uni.showToast({
-												// 	icon: 'none',
-												// 	title: '用户账号或密码不正确',
-												// });
+											} else {
+												uni.showToast({
+													icon: 'none',
+													title: '添加失败请重试',
+												});
 											}
 										}).catch(function(error) {
 											console.log(error);
-										});
-									
+										})
 								},
 								fail: (err) => {
 									console.log('uploadImage fail', err);
@@ -430,6 +433,12 @@
 							if (response.data.code === 200) {
 								console.log('cg');
 								
+							}else{
+								uni.showToast({
+									icon: 'none',
+									title: response.data.msg,
+									 duration: 2000
+								});
 							}
 						}
 						else {
@@ -445,14 +454,15 @@
 		}
 	}
 </script>
-<style lang="less">
-	.image {
-		width: 100%;
+<style lang="less" scoped>
+	.images {
+		width: 450upx;
+		height: 600upx;
 	}
 	
 	.demo {
 		background: #FFF;
-		padding: 50upx;
+		padding: 0 50upx;
 	}
 .uni-page-head-ft {
 	position: relative;

@@ -18,14 +18,14 @@
 			<!-- <text>|</text> -->
 			<!-- <navigator url="../pwd/pwd">忘记密码</navigator> -->
 		</view>
-		<view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}">
+		<!-- <view class="oauth-row" v-if="hasProvider" v-bind:style="{top: positionTop + 'px'}">
 			<view class="oauth-image" v-for="provider in providerList" :key="provider.value">
 				<image :src="provider.image" @tap="oauth(provider.value)"></image>
-				<!-- #ifdef MP-WEIXIN -->
+				#ifdef MP-WEIXIN
 				<button v-if="!isDevtools" open-type="getUserInfo" @getuserinfo="getUserInfo"></button>
-				<!-- #endif -->
+				#endif
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -58,35 +58,35 @@
 		computed: mapState(['forcedLogin']),
 		methods: {
 			...mapMutations(['login']),
-			initProvider() {
-				const filters = ['weixin', 'qq', 'sinaweibo'];
-				uni.getProvider({
-					service: 'oauth',
-					success: (res) => {
-						if (res.provider && res.provider.length) {
-							for (let i = 0; i < res.provider.length; i++) {
-								if (~filters.indexOf(res.provider[i])) {
-									this.providerList.push({
-										value: res.provider[i],
-										image: '../../static/img/' + res.provider[i] + '.png'
-									});
-								}
-							}
-							this.hasProvider = true;
-						}
-					},
-					fail: (err) => {
-						console.error('获取服务供应商失败：' + JSON.stringify(err));
-					}
-				});
-			},
-			initPosition() {
-				/**
-				 * 使用 absolute 定位，并且设置 bottom 值进行定位。软键盘弹出时，底部会因为窗口变化而被顶上来。
-				 * 反向使用 top 进行定位，可以避免此问题。
-				 */
-				this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
-			},
+			// initProvider() {
+			// 	const filters = ['weixin', 'qq', 'sinaweibo'];
+			// 	uni.getProvider({
+			// 		service: 'oauth',
+			// 		success: (res) => {
+			// 			if (res.provider && res.provider.length) {
+			// 				for (let i = 0; i < res.provider.length; i++) {
+			// 					if (~filters.indexOf(res.provider[i])) {
+			// 						this.providerList.push({
+			// 							value: res.provider[i],
+			// 							image: '../../static/img/' + res.provider[i] + '.png'
+			// 						});
+			// 					}
+			// 				}
+			// 				this.hasProvider = true;
+			// 			}
+			// 		},
+			// 		fail: (err) => {
+			// 			console.error('获取服务供应商失败：' + JSON.stringify(err));
+			// 		}
+			// 	});
+			// },
+			// initPosition() {
+			// 	/**
+			// 	 * 使用 absolute 定位，并且设置 bottom 值进行定位。软键盘弹出时，底部会因为窗口变化而被顶上来。
+			// 	 * 反向使用 top 进行定位，可以避免此问题。
+			// 	 */
+			// 	this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
+			// },
 			bindLogin() {
 				if (this.password.length ===0 &&this.account.length===0) {
 					uni.showToast({
@@ -106,13 +106,13 @@
 					});
 					return;
 				}
-				if (this.password.length < 6) {
-					uni.showToast({
-						icon: 'none',
-						title: '密码最短为 6 个字符'
-					});
-					return;
-				}
+				// if (this.password.length < 6) {
+				// 	uni.showToast({
+				// 		icon: 'none',
+				// 		title: '密码最短为 6 个字符'
+				// 	});
+				// 	return;
+				// }
 				/**
 				 * 下面简单模拟下服务端的处理
 				 * 检测用户账号密码是否在已注册的用户列表中
@@ -121,25 +121,23 @@
 				const data = {
 					account: this.account,
 					pwd: this.password
-					// account:17766666669,
-					// pwd: 1
 				};
 				let validUser = service.getUsers();
 		
 				console.log(validUser.length)
 				if (validUser.length !== 0) {
 					// 存在缓存数据getUsers（）对象
-					// this.toMain(this.account);
-				} 
-				else {
+					this.toMain(this.account);
+				} else {
 					// service.toServicelogin(data)
 					//需要重新登录
 					var that = this;
 					uniRequest.post(BASE_URL + "api/v1/User/login", data)
 						.then(function(response) {
+							console.log(response);
 							if (response.status === 200) {
 								if (response.data.code === 200){
-									console.log(response);
+									
 									// 登录成功后存入缓存数据addUser 
 									const newData = {
 										account: data.account,
@@ -174,44 +172,45 @@
 				}
 			},
 			// 微信小程序等自助登录端口
-			oauth(value) {
-				uni.login({
-					provider: value,
-					success: (res) => {
-						uni.getUserInfo({
-							provider: value,
-							success: (infoRes) => {
-								/**
-								 * 实际开发中，获取用户信息后，需要将信息上报至服务端。
-								 * 服务端可以用 userInfo.openId 作为用户的唯一标识新增或绑定用户信息。
-								 */
-								this.toMain(infoRes.userInfo.nickName);
-							},
-							fail() {
-								uni.showToast({
-									icon: 'none',
-									title: '登陆失败'
-								});
-							}
-						});
-					},
-					fail: (err) => {
-						console.error('授权登录失败：' + JSON.stringify(err));
-					}
-				});
-			},
-			getUserInfo({
-				detail
-			}) {
-				if (detail.userInfo) {
-					this.toMain(detail.userInfo.nickName);
-				} else {
-					uni.showToast({
-						icon: 'none',
-						title: '登陆失败'
-					});
-				}
-			},
+			// oauth(value) {
+			// 	uni.login({
+			// 		provider: value,
+			// 		success: (res) => {
+			// 			uni.getUserInfo({
+			// 				provider: value,
+			// 				success: (infoRes) => {
+			// 					/**
+			// 					 * 实际开发中，获取用户信息后，需要将信息上报至服务端。
+			// 					 * 服务端可以用 userInfo.openId 作为用户的唯一标识新增或绑定用户信息。
+			// 					 */
+			// 					this.toMain(infoRes.userInfo.nickName);
+			// 				},
+			// 				fail() {
+			// 					uni.showToast({
+			// 						icon: 'none',
+			// 						title: '登陆失败'
+			// 					});
+			// 				}
+			// 			});
+			// 		},
+			// 		fail: (err) => {
+			// 			console.error('授权登录失败：' + JSON.stringify(err));
+			// 		}
+			// 	});
+			// },
+			
+			// getUserInfo({
+			// 	detail
+			// }) {
+			// 	if (detail.userInfo) {
+			// 		this.toMain(detail.userInfo.nickName);
+			// 	} else {
+			// 		uni.showToast({
+			// 			icon: 'none',
+			// 			title: '登陆失败'
+			// 		});
+			// 	}
+			// },
 			toMain(userName) {
 				this.login(userName);
 				/**
@@ -229,8 +228,8 @@
 			}
 		},
 		onReady() {
-			this.initPosition();
-			this.initProvider();
+			// this.initPosition();
+			// this.initProvider();
 			// #ifdef MP-WEIXIN
 			this.isDevtools = uni.getSystemInfoSync().platform === 'devtools';
 			// #endif

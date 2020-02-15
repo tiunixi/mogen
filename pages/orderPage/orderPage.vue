@@ -29,13 +29,13 @@
 			</view>
 			<view class="oder-main-money">
 				交 易 金 额：
-				<span>{{order.collection_user_price}}</span>
+				<span>{{order.price}}</span>
 			</view>
 			<view class="status">
 				支 付 方 式：{{order.pay_type}}
 			</view>
 			<view class="">
-				待 返 金 额：{{order.order_num}}
+				待 返 金 额：{{order.collection_user_price}}
 			</view>
 			<view class="status">
 				返 款 状 态：{{order.back_status}}
@@ -74,20 +74,19 @@
 				// 
 				array: [{name:'待确定支付'},{name: '确定支付完成'}, {name:'支付超时'}],
 				index: 0,
-	 			order:[{
-	 				id: '',
-	 				back_status: "",
-	 				order_status: "",
-	 				order_num: "",
-	 				collection_code_id: 0,
-	 				create_time: "",
-	 				merchants_order_num: "",
-	 				price: 0,
-	 				collection_user_price: 0,
-	 				pay_type: "",
-	 				img: "",
-					order_status_num:''
-	 			}]
+				order:[{
+					id: '',
+					back_status: "",
+					order_status: "",
+					order_num: "",
+					collection_code_id: 0,
+					create_time: "",
+					merchants_order_num: "",
+					price: 0,
+					collection_user_price: 0,
+					pay_type: "",
+					img: "",
+				}]
 	 		}
 	 	},
 		onLoad: function (option) {
@@ -104,18 +103,20 @@
 				
 				this.index = 2
 			}
-			this.order = {
-					id: item.id,
-					back_status: item.back_status,
-					order_status: item.order_status,
-					order_num: item.order_num,
-					collection_code_id: item.collection_code_id, //人工
-					create_time: item.create_time, //安全敏
-					merchants_order_num: item.merchants_order_num, //政治敏
-					collection_user_price: item.collection_user_price, //机器人对话轮数
-					pay_type: item.pay_type, //机器人对话轮数
-					img: item.img, //机器人对话轮数
-				};
+			this.order =  {
+				id: item.id,
+				price: item.price,
+				back_status: item.back_status,
+				order_status: item.order_status,
+				order_num: item.order_num,
+				collection_code_id: item.collection_code_id, //人工
+				create_time: item.create_time, //安全敏
+				merchants_order_num: item.merchants_order_num, //政治敏
+				collection_user_price: item.collection_user_price, //机器人对话轮数
+				pay_type: item.pay_type, 
+				img: item.img, 
+				order_status_num:  item.order_status_num
+			};
 		},
 	 	methods: {
 			bindPickerChange: function(e) {

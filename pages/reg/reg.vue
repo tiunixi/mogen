@@ -78,7 +78,8 @@
 							if (response.data.code === 200){
 								uni.showToast({
 									icon: 'none',
-									title: '注册成功，请重新登录',
+									title: '注册成功，请等待审核后登陆',
+									 duration: 2000
 								});
 								//延迟1.5s
 								setTimeout(function() {   
