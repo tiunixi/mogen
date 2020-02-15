@@ -255,6 +255,7 @@
 												uni.showToast({
 													icon: 'none',
 													title: '添加失败请重试',
+													duration: 1000
 												});
 											}
 										}).catch(function(error) {
@@ -338,6 +339,7 @@
 												uni.showToast({
 													icon: 'none',
 													title: '添加失败请重试',
+													duration: 1000
 												});
 											}
 										}).catch(function(error) {
@@ -445,6 +447,7 @@
 							uni.showToast({
 								icon: 'none',
 								title: '请稍候重试',
+								duration: 1000
 							});
 						}
 					}).catch(function(error) {

@@ -208,6 +208,7 @@
 											uni.showToast({
 												icon: 'none',
 												title: '添加失败请重试',
+												duration: 1000
 											});
 										}
 									}).catch(function(error) {
@@ -218,7 +219,8 @@
 							fail: (err) => {
 								uni.showModal({
 									content: err.errMsg,
-									showCancel: false
+									showCancel: false,
+									duration: 1000
 								});
 							}
 						});

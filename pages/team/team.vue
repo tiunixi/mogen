@@ -87,7 +87,8 @@
  		onLoad() {
  				if (!this.hasLogin) {
 					uni.showLoading({
-					    title: '加载中'
+					    title: '加载中',
+						duration: 1000
 					});
  						let validUser = service.getUsers();
  						if (validUser.length !== 0) {

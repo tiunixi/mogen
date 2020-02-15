@@ -50,7 +50,8 @@
 				if (this.mobile.length < 11) {
 					uni.showToast({
 						icon: 'none',
-						title: '请输入正确的手机号'
+						title: '请输入正确的手机号',
+						duration: 1000
 					});
 					return;
 				}
@@ -73,6 +74,7 @@
 								uni.showToast({
 									icon: 'none',
 									title: response.data.msg,
+									duration: 1000
 								});
 							}
 							if (response.data.code === 200){
@@ -94,6 +96,7 @@
 							uni.showToast({
 								icon: 'none',
 								title: '用户账号或密码不正确',
+								duration: 1000
 							});
 						}
 					}).catch(function(error) {

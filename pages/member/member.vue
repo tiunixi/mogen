@@ -75,6 +75,7 @@
 								uni.showToast({
 			 					icon: 'none',
 			 					title: e.data.msg,
+								duration: 1000
 			 				});
 							}
 						}
@@ -146,6 +147,7 @@
 												uni.showToast({
 												icon: 'none',
 												title: e.data.msg,
+												duration: 1000
 											});
 											}
 										}

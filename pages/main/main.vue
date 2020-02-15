@@ -133,7 +133,8 @@
 			this.tryAPP=[1,2,3]
 	 		if (!this.hasLogin) {
 				uni.showLoading({
-				    title: '加载中'
+				    title: '加载中',
+					duration: 1000
 				});
 				this.$forceUpdate();
 				

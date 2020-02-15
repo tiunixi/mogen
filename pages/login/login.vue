@@ -91,7 +91,8 @@
 				if (this.password.length ===0 &&this.account.length===0) {
 					uni.showToast({
 						icon: 'none',
-						title: '请输入后再登录'
+						title: '请输入后再登录',
+						duration: 1000
 					});
 					return;
 				}
@@ -102,7 +103,8 @@
 				if (this.account.length < 5) {
 					uni.showToast({
 						icon: 'none',
-						title: '账号最短为 5 个字符'
+						title: '账号最短为 5 个字符',
+						duration: 1000
 					});
 					return;
 				}
@@ -148,6 +150,7 @@
 									uni.showToast({
 										icon: 'none',
 										title: '登陆成功',
+										duration: 1000
 									});
 									// that.toMain(data.account);
 									uni.reLaunch({
@@ -157,6 +160,7 @@
 								uni.showToast({
 									icon: 'none',
 									title: '用户账号或密码不正确',
+									duration: 1000
 								});
 							}
 							}
@@ -164,6 +168,7 @@
 								uni.showToast({
 									icon: 'none',
 									title: '用户账号或密码不正确',
+									duration: 1000
 								});
 							}
 						}).catch(function(error) {

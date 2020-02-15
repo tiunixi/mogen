@@ -35,6 +35,7 @@
 					uni.showToast({
 						icon: 'none',
 						title: '邮箱地址不合法',
+						duration: 1000
 					});
 					return;
 				}
